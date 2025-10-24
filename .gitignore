@@ -1,0 +1,16 @@
+# Folder dan file yang diabaikan secara umum oleh Node.js (biarkan saja walaupun tidak pakai Node.js)
+/node_modules
+/npm-debug.log
+
+# Dependency folder
+/dist
+/build
+
+# File log dan cache sistem
+*.log
+.DS_Store # (Untuk pengguna Mac)
+Thumbs.db # (Untuk pengguna Windows)
+
+# Configuration atau cache dari editor
+.vscode/
+.idea/

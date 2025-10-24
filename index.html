@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchoolNet: Platform Kolaborasi Pendidikan Masa Depan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #4c51bf 0%, #667eea 100%);
+        }
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .showcase-card img {
+            transition: transform 0.3s ease;
+        }
+        .showcase-card:hover img {
+            transform: scale(1.05);
+        }
+        /* Style for modal */
+        .modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .project-modal-content {
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        /* Testimonial Carousel */
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-350px * 4)); } /* Adjusted width */
+        }
+        .slider {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+        .slide-track {
+            animation: scroll 40s linear infinite;
+            display: flex;
+            width: calc(350px * 8); /* Adjusted width */
+        }
+        .slide-track:hover {
+            animation-play-state: paused;
+        }
+        .slide {
+            width: 350px;
+            padding: 1rem;
+        }
+        .gauge-circle-progress {
+            transition: stroke-dashoffset 0.5s ease-in-out;
+        }
+
+        /* FAQ Accordion Styles */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out; /* Dihapus: padding 0.4s ease-in-out */
+        }
+        .faq-item.active .faq-question {
+            background-color: #f9fafb; /* bg-gray-50 */
+            border-bottom-color: transparent;
+        }
+        /* Dihapus: .faq-item.active .faq-answer { ... } */
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        
+        /* NEW: Styles for Stat Counter Animation */
+        .stat-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .stat-item.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* NEW: Styles for Hero Illustration */
+        .hero-illustration {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Print Styles */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printable-profile, #printable-profile * {
+                visibility: visible;
+            }
+            #printable-profile {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                border: none;
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50 no-print">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="nav-link text-2xl font-bold text-indigo-600 flex items-center space-x-2" data-page="home-content">
+                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 8C10.6569 8 12 6.65685 12 5C12 3.34315 10.6569 2 9 2C7.34315 2 6 3.34315 6 5C6 6.65685 7.34315 8 9 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M9 22C10.6569 22 12 20.6569 12 19C12 17.3431 10.6569 16 9 16C7.34315 16 6 17.3431 6 19C6 20.6569 7.34315 22 9 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M18 15C19.6569 15 21 13.6569 21 12C21 10.3431 19.6569 9 18 9C16.3431 9 15 10.3431 15 12C15 13.6569 16.3431 15 18 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.5 6.5L15.5 10.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.5 17.5L15.5 13.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>SchoolNet</span>
+            </a>
+            <div id="nav-content" class="hidden md:flex items-center space-x-6">
+                <a href="#" data-page="home-content" class="nav-link text-gray-600 hover:text-indigo-600">Home</a>
+                <a href="#" data-page="fitur" class="nav-link text-gray-600 hover:text-indigo-600">Fitur</a>
+                <a href="#" data-page="proyek" class="nav-link text-gray-600 hover:text-indigo-600">Showcase</a>
+                <a href="#" data-page="faq-page" class="nav-link text-gray-600 hover:text-indigo-600">FAQ</a>
+                <a href="#" id="login-btn" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition">Masuk</a>
+            </div>
+            <button id="mobile-menu-btn" class="md:hidden text-gray-600 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg absolute top-full left-0 w-full z-40">
+            <div class="px-5 pt-2 pb-6 space-y-3">
+                <a href="#" data-page="home-content" class="nav-link-mobile block text-gray-700 hover:text-indigo-600 font-medium py-2">Home</a>
+                <a href="#" data-page="fitur" class="nav-link-mobile block text-gray-700 hover:text-indigo-600 font-medium py-2">Fitur</a>
+                <a href="#" data-page="proyek" class="nav-link-mobile block text-gray-700 hover:text-indigo-600 font-medium py-2">Showcase</a>
+                <a href="#" data-page="faq-page" class="nav-link-mobile block text-gray-700 hover:text-indigo-600 font-medium py-2">FAQ</a>
+                <a href="#" id="login-btn-mobile" class="block w-full text-center bg-indigo-600 text-white px-4 py-3 mt-3 rounded-md hover:bg-indigo-700 transition font-medium">Masuk</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div id="home-content">
+            <!-- Hero Section -->
+            <section id="home" class="hero-gradient text-white pt-20 pb-28">
+                <div class="container mx-auto px-6">
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div class="text-center md:text-left">
+                            <h1 class="text-4xl md:text-5xl font-bold mb-4 leading-tight">Wujudkan Idemu,<br>Berkolaborasi Lintas Batas.</h1>
+                            <p class="text-lg md:text-xl mb-8 max-w-3xl mx-auto md:mx-0">SchoolNet adalah jembatan bagi pelajar dan mahasiswa di seluruh Indonesia untuk saling terhubung dan menciptakan karya bersama.</p>
+                            <div class="flex flex-col sm:flex-row justify-center md:justify-start items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                                <a href="#" id="join-now-btn" class="btn-primary bg-white text-indigo-600 font-bold py-3 px-8 rounded-full hover:bg-gray-200 transition text-lg w-full sm:w-auto">Gabung Sekarang</a>
+                                <a href="#tentang" class="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-full hover:bg-white hover:text-indigo-600 transition text-lg w-full sm:w-auto">Pelajari Lebih Lanjut</a>
+                            </div>
+                        </div>
+                        <div class="hidden md:flex justify-center items-center">
+                            <!-- New SVG Illustration -->
+                            <svg width="100%" height="100%" viewBox="0 0 400 350" xmlns="http://www.w3.org/2000/svg" class="hero-illustration">
+                                <defs>
+                                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:rgb(255,255,255);stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:rgb(230,230,250);stop-opacity:0.8" />
+                                    </linearGradient>
+                                    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:rgb(255,255,255);stop-opacity:0.7" />
+                                        <stop offset="100%" style="stop-color:rgb(230,230,250);stop-opacity:0.5" />
+                                    </linearGradient>
+                                    <filter id="svgShadow" x="-30%" y="-30%" width="160%" height="160%">
+                                        <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
+                                        <feOffset dx="3" dy="5" result="offsetblur"/>
+                                        <feComponentTransfer>
+                                            <feFuncA type="linear" slope="0.2"/>
+                                        </feComponentTransfer>
+                                        <feMerge> 
+                                            <feMergeNode/>
+                                            <feMergeNode in="SourceGraphic"/> 
+                                        </feMerge>
+                                    </filter>
+                                    <!-- New gradient for robot eye/light -->
+                                    <radialGradient id="gradEye" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                                        <stop offset="0%" style="stop-color:rgb(167, 243, 208); stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:rgb(5, 150, 105); stop-opacity:1" />
+                                    </radialGradient>
+                                </defs>
+                                
+                                <!-- Background network nodes -->
+                                <circle cx="50" cy="80" r="15" fill="url(#grad2)" filter="url(#svgShadow)" opacity="0.6"/>
+                                <circle cx="350" cy="150" r="20" fill="url(#grad2)" filter="url(#svgShadow)" opacity="0.6"/>
+                                <circle cx="100" cy="300" r="10" fill="url(#grad2)" filter="url(#svgShadow)" opacity="0.6"/>
+                                
+                                <!-- Robot Body -->
+                                <rect x="150" y="100" width="100" height="120" rx="40" fill="url(#grad1)" filter="url(#svgShadow)" />
+
+                                <!-- Robot Head -->
+                                <circle cx="200" cy="70" r="35" fill="url(#grad1)" filter="url(#svgShadow)" />
+                                
+                                <!-- Robot Eye -->
+                                <circle cx="200" cy="70" r="15" fill="url(#gradEye)" />
+                                <circle cx="195" cy="65" r="5" fill="white" opacity="0.8" />
+
+                                <!-- Robot Arms -->
+                                <!-- Left Arm -->
+                                <path d="M 150 130 Q 100 150 110 190" stroke="url(#grad1)" stroke-width="12" fill="none" filter="url(#svgShadow)" stroke-linecap="round" />
+                                <!-- Right Arm -->
+                                <path d="M 250 130 Q 300 150 290 190" stroke="url(#grad1)" stroke-width="12" fill="none" filter="url(#svgShadow)" stroke-linecap="round" />
+
+                                <!-- Book -->
+                                <path d="M 120 180 Q 180 160 200 240 Q 220 160 280 180 L 275 220 Q 200 260 125 220 Z" fill="url(#grad1)" filter="url(#svgShadow)" />
+                                <!-- Book pages illusion -->
+                                <path d="M 200 180 V 235" stroke="url(#grad2)" stroke-width="2" opacity="0.5" />
+                                <path d="M 190 180 V 230" stroke="url(#grad2)" stroke-width="1" opacity="0.5" />
+                                <path d="M 210 180 V 230" stroke="url(#grad2)" stroke-width="1" opacity="0.5" />
+
+                                <!-- Propulsion/Hover effect -->
+                                <ellipse cx="200" cy="235" rx="35" ry="10" fill="url(#gradEye)" opacity="0.4" filter="url(#svgShadow)" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tentang SchoolNet (Visi, Misi) -->
+            <section id="tentang" class="py-20 bg-white">
+                <div class="container mx-auto px-6">
+                     <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-gray-800">Tentang SchoolNet</h2>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div class="text-center md:text-left">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4">Visi Kami</h3>
+                            <p class="text-lg text-gray-600">Menjadi ruang digital terbesar bagi pelajar Indonesia untuk berkolaborasi, berinovasi, dan menciptakan solusi nyata bagi bangsa.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center md:text-left">Misi Kami</h3>
+                            <ul class="space-y-3 text-gray-600">
+                                <li class="flex items-start"><span class="text-indigo-500 mr-3 mt-1">✓</span>Menghubungkan pelajar dan mahasiswa lintas sekolah serta kampus.</li>
+                                <li class="flex items-start"><span class="text-indigo-500 mr-3 mt-1">✓</span>Mendorong kolaborasi lintas disiplin untuk menghasilkan karya inovatif.</li>
+                                <li class="flex items-start"><span class="text-indigo-500 mr-3 mt-1">✓</span>Mengembangkan etika digital melalui sistem moderasi AI.</li>
+                                <li class="flex items-start"><span class="text-indigo-500 mr-3 mt-1">✓</span>Menjadi pusat showcase karya anak bangsa di berbagai bidang.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- NEW: Stats Section -->
+            <section id="statistik" class="py-20 bg-gray-50">
+                <div class="container mx-auto px-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                        <!-- Stat 1 -->
+                        <div class="stat-item">
+                            <div class="flex justify-center mb-4">
+                                <div class="bg-indigo-100 text-indigo-600 rounded-full p-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                                </div>
+                            </div>
+                            <h3 class="text-4xl font-bold text-indigo-600">
+                                <span class="stat-number" data-target="10000">0</span>+
+                            </h3>
+                            <p class="text-gray-500 mt-2 font-medium">Siswa & Mahasiswa Terhubung</p>
+                        </div>
+                        <!-- Stat 2 -->
+                        <div class="stat-item">
+                            <div class="flex justify-center mb-4">
+                                <div class="bg-indigo-100 text-indigo-600 rounded-full p-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                                </div>
+                            </div>
+                            <h3 class="text-4xl font-bold text-indigo-600">
+                                <span class="stat-number" data-target="500">0</span>+
+                            </h3>
+                            <p class="text-gray-500 mt-2 font-medium">Proyek Kolaborasi Selesai</p>
+                        </div>
+                        <!-- Stat 3 -->
+                        <div class="stat-item">
+                            <div class="flex justify-center mb-4">
+                                <div class="bg-indigo-100 text-indigo-600 rounded-full p-4">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.32 0L12 2.69z"></path><path d="M12 11.25V14"></path><path d="M12 17h.01"></path></svg>
+                                </div>
+                            </div>
+                            <h3 class="text-4xl font-bold text-indigo-600">
+                                <span class="stat-number" data-target="100">0</span>+
+                            </h3>
+                            <p class="text-gray-500 mt-2 font-medium">Mentor Profesional Bergabung</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Alur Kolaborasi / Cara Kerja -->
+            <section id="alur" class="py-20">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl font-bold text-gray-800">Alur Kolaborasi</h2>
+                        <p class="text-gray-600 mt-2 max-w-2xl mx-auto">SchoolNet membuat perjalanan ide menjadi nyata mulai dari diskusi, kolaborasi, hingga karya yang berdampak.</p>
+                    </div>
+                     <div class="grid md:grid-cols-5 gap-8 text-center">
+                        <!-- Step 1 -->
+                        <div>
+                            <div class="bg-indigo-600 text-white rounded-full w-14 h-14 flex items-center justify-center text-xl font-bold z-10 mx-auto">1</div>
+                            <h3 class="font-semibold mt-4 mb-2">Daftar Akun</h3>
+                            <p class="text-gray-600 text-sm">Pilih peranmu sebagai Siswa, Mahasiswa, atau Mentor.</p>
+                        </div>
+                         <!-- Step 2 -->
+                         <div>
+                            <div class="bg-indigo-600 text-white rounded-full w-14 h-14 flex items-center justify-center text-xl font-bold z-10 mx-auto">2</div>
+                            <h3 class="font-semibold mt-4 mb-2">Eksplorasi Ide</h3>
+                            <p class="text-gray-600 text-sm">Cari inspirasi, gabung diskusi, atau post ide proyek baru.</p>
+                        </div>
+                         <!-- Step 3 -->
+                         <div>
+                            <div class="bg-indigo-600 text-white rounded-full w-14 h-14 flex items-center justify-center text-xl font-bold z-10 mx-auto">3</div>
+                            <h3 class="font-semibold mt-4 mb-2">Bentuk Tim</h3>
+                            <p class="text-gray-600 text-sm">Undang anggota dari berbagai sekolah atau kampus.</p>
+                        </div>
+                         <!-- Step 4 -->
+                         <div>
+                            <div class="bg-indigo-600 text-white rounded-full w-14 h-14 flex items-center justify-center text-xl font-bold z-10 mx-auto">4</div>
+                            <h3 class="font-semibold mt-4 mb-2">Kerjakan Proyek</h3>
+                            <p class="text-gray-600 text-sm">Gunakan tools kolaborasi dan panduan dari AI assistant.</p>
+                        </div>
+                         <!-- Step 5 -->
+                         <div>
+                            <div class="bg-indigo-600 text-white rounded-full w-14 h-14 flex items-center justify-center text-xl font-bold z-10 mx-auto">5</div>
+                            <h3 class="font-semibold mt-4 mb-2">Publikasikan Karya</h3>
+                            <p class="text-gray-600 text-sm">Tampilkan hasilnya di Showcase Digital untuk dunia.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Mengapa SchoolNet Section -->
+            <section id="mengapa" class="py-20 bg-white">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-gray-800">Mengapa Memilih SchoolNet?</h2>
+                        <p class="text-gray-600 mt-2 max-w-2xl mx-auto">Platform yang dirancang untuk memaksimalkan potensi kolaborasi dan inovasimu.</p>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-8 text-center">
+                        <div class="p-6">
+                            <div class="flex justify-center mb-4">
+                                <div class="bg-indigo-100 text-indigo-600 rounded-full p-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+                                </div>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Kolaborasi Lintas Batas</h3>
+                            <p class="text-gray-600">Hancurkan batasan sekolah dan kampus. Temukan rekan satu visi dari seluruh Indonesia untuk proyek impianmu.</p>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-center mb-4">
+                                <div class="bg-indigo-100 text-indigo-600 rounded-full p-4">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                </div>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Bangun Portofolio Nyata</h3>
+                            <p class="text-gray-600">Setiap proyek yang kamu selesaikan akan menjadi portofolio digital yang berharga untuk karir masa depanmu.</p>
+                        </div>
+                        <div class="p-6">
+                             <div class="flex justify-center mb-4">
+                                <div class="bg-indigo-100 text-indigo-600 rounded-full p-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.32 0L12 2.69z"></path><path d="M12 11.25V14"></path><path d="M12 17h.01"></path></svg>
+                                </div>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Dukungan AI Cerdas</h3>
+                            <p class="text-gray-600">Dari moderator etis hingga asisten proyek, AI kami membantumu fokus pada hal yang terpenting: berinovasi.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Testimoni Section -->
+            <section id="testimoni" class="py-20">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-gray-800">Kata Mereka Tentang SchoolNet</h2>
+                    </div>
+                    <div class="slider">
+                        <div class="slide-track">
+                            <div class="slide"><div class="bg-white p-8 rounded-lg shadow-md border border-gray-200 h-full"><p class="text-gray-600 italic mb-6">"SchoolNet benar-benar mengubah cara saya melihat proyek sekolah. Saya bisa berkolaborasi dengan mahasiswa dari UGM untuk riset energi surya..."</p><div class="flex items-center"><img src="https://placehold.co/50x50/9f7aea/ffffff?text=D" alt="Avatar Dewi" class="w-12 h-12 rounded-full mr-4"><div><p class="font-semibold">Dewi Lestari</p><p class="text-sm text-gray-500">Siswa, MAN 2 Malang</p></div></div></div></div>
+                            <div class="slide"><div class="bg-white p-8 rounded-lg shadow-md border border-gray-200 h-full"><p class="text-gray-600 italic mb-6">"Sebagai mahasiswa, platform ini sangat membantu saya menemukan talenta muda berbakat dari berbagai SMA. Proyek kami berjalan lancar..."</p><div class="flex items-center"><img src="https://placehold.co/50x50/667eea/ffffff?text=C" alt="Avatar Citra" class="w-12 h-12 rounded-full mr-4"><div><p class="font-semibold">Citra Kirana</p><p class="text-sm text-gray-500">Mahasiswa, ITB</p></div></div></div></div>
+                            <div class="slide"><div class="bg-white p-8 rounded-lg shadow-md border border-gray-200 h-full"><p class="text-gray-600 italic mb-6">"Fitur AI Mentor sangat membantu mengarahkan ide proyek kami yang awalnya mentah menjadi lebih terstruktur dan layak untuk dikerjakan."</p><div class="flex items-center"><img src="https://placehold.co/50x50/ed8936/ffffff?text=J" alt="Avatar Joko" class="w-12 h-12 rounded-full mr-4"><div><p class="font-semibold">Joko Susilo</p><p class="text-sm text-gray-500">Siswa, SMK 5 Yogyakarta</p></div></div></div></div>
+                            <div class="slide"><div class="bg-white p-8 rounded-lg shadow-md border border-gray-200 h-full"><p class="text-gray-600 italic mb-6">"Awalnya ragu, tapi ternyata SchoolNet punya komunitas yang sangat positif. Sistem skor reputasi membuat diskusi jadi lebih sehat."</p><div class="flex items-center"><img src="https://placehold.co/50x50/38b2ac/ffffff?text=S" alt="Avatar Sari" class="w-12 h-12 rounded-full mr-4"><div><p class="font-semibold">Sari Indah</p><p class="text-sm text-gray-500">Mahasiswa, UNS</p></div></div></div></div>
+                            <!-- Duplicate slides for infinite effect -->
+                            <div class="slide"><div class="bg-white p-8 rounded-lg shadow-md border border-gray-200 h-full"><p class="text-gray-600 italic mb-6">"SchoolNet benar-benar mengubah cara saya melihat proyek sekolah. Saya bisa berkolaborasi dengan mahasiswa dari UGM untuk riset energi surya..."</p><div class="flex items-center"><img src="https://placehold.co/50x50/9f7aea/ffffff?text=D" alt="Avatar Dewi" class="w-12 h-12 rounded-full mr-4"><div><p class="font-semibold">Dewi Lestari</p><p class="text-sm text-gray-500">Siswa, MAN 2 Malang</p></div></div></div></div>
+                            <div class="slide"><div class="bg-white p-8 rounded-lg shadow-md border border-gray-200 h-full"><p class="text-gray-600 italic mb-6">"Sebagai mahasiswa, platform ini sangat membantu saya menemukan talenta muda berbakat dari berbagai SMA. Proyek kami berjalan lancar..."</p><div class="flex items-center"><img src="https://placehold.co/50x50/667eea/ffffff?text=C" alt="Avatar Citra" class="w-12 h-12 rounded-full mr-4"><div><p class="font-semibold">Citra Kirana</p><p class="text-sm text-gray-500">Mahasiswa, ITB</p></div></div></div></div>
+                            <div class="slide"><div class="bg-white p-8 rounded-lg shadow-md border border-gray-200 h-full"><p class="text-gray-600 italic mb-6">"Fitur AI Mentor sangat membantu mengarahkan ide proyek kami yang awalnya mentah menjadi lebih terstruktur dan layak untuk dikerjakan."</p><div class="flex items-center"><img src="https://placehold.co/50x50/ed8936/ffffff?text=J" alt="Avatar Joko" class="w-12 h-12 rounded-full mr-4"><div><p class="font-semibold">Joko Susilo</p><p class="text-sm text-gray-500">Siswa, SMK 5 Yogyakarta</p></div></div></div></div>
+                            <div class="slide"><div class="bg-white p-8 rounded-lg shadow-md border border-gray-200 h-full"><p class="text-gray-600 italic mb-6">"Awalnya ragu, tapi ternyata SchoolNet punya komunitas yang sangat positif. Sistem skor reputasi membuat diskusi jadi lebih sehat."</p><div class="flex items-center"><img src="https://placehold.co/50x50/38b2ac/ffffff?text=S" alt="Avatar Sari" class="w-12 h-12 rounded-full mr-4"><div><p class="font-semibold">Sari Indah</p><p class="text-sm text-gray-500">Mahasiswa, UNS</p></div></div></div></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ Section -->
+            
+        </div>
+
+        <!-- Fitur Utama Section -->
+        <section id="fitur" class="py-20 hidden">
+             <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800 section-title mx-auto">Platform Kolaborasi Cerdas</h2>
+                    <p class="text-gray-600 mt-2">Ditenagai AI untuk pengalaman kolaborasi yang lebih etis, inklusif, dan visioner.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Feature Card 1: Forum Diskusi -->
+                    <div class="card-hover bg-white p-8 rounded-lg border border-gray-200 flex flex-col">
+                        <div class="flex items-start space-x-6 mb-4">
+                            <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 flex-shrink-0"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></div>
+                            <h3 class="text-xl font-semibold pt-3">Forum Diskusi Ide</h3>
+                        </div>
+                        <p class="text-gray-600 flex-grow">Temukan inspirasi, validasi gagasan, dan dapatkan masukan dari komunitas pelajar dalam ruang diskusi yang dimoderasi AI.</p>
+                        <a href="#" data-modal="forum-modal" class="project-detail-btn font-semibold text-indigo-600 hover:underline mt-4 self-start">Lihat Simulasi Forum →</a>
+                    </div>
+                    <!-- Feature Card 2: Kolaborasi Proyek -->
+                    <div class="card-hover bg-white p-8 rounded-lg border border-gray-200 flex flex-col">
+                        <div class="flex items-start space-x-6 mb-4">
+                            <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 flex-shrink-0"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg></div>
+                            <h3 class="text-xl font-semibold pt-3">Kolaborasi Proyek</h3>
+                        </div>
+                        <p class="text-gray-600 flex-grow">Bentuk tim impianmu atau bergabunglah dengan proyek yang sudah ada. Kelola tugas, lacak progres, dan wujudkan ide bersama.</p>
+                        <a href="#" data-modal="kolaborasi-modal" class="project-detail-btn font-semibold text-indigo-600 hover:underline mt-4 self-start">Lihat Opsi Kolaborasi →</a>
+                    </div>
+                    <!-- Feature Card 3: AI Moderator -->
+                    <div class="card-hover bg-white p-8 rounded-lg border border-gray-200 flex flex-col">
+                         <div class="flex items-start space-x-6 mb-4">
+                            <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 flex-shrink-0"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
+                            <h3 class="text-xl font-semibold pt-3">Dasbor Reputasi AI</h3>
+                        </div>
+                        <p class="text-gray-600 flex-grow">Setiap kontribusi dinilai. AI memberikan skor reputasi berdasarkan etika diskusimu, memastikan lingkungan yang sehat dan produktif.</p>
+                        <a href="#" data-modal="moderator-modal" class="project-detail-btn font-semibold text-indigo-600 hover:underline mt-4 self-start">Lihat Dasbor Reputasi →</a>
+                    </div>
+                    <!-- Feature Card 4: Portofolio Publik -->
+                    <div class="card-hover bg-white p-8 rounded-lg border border-gray-200 flex flex-col">
+                        <div class="flex items-start space-x-6 mb-4">
+                            <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 flex-shrink-0"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg></div>
+                             <h3 class="text-xl font-semibold pt-3">Profil & Portofolio</h3>
+                        </div>
+                        <p class="text-gray-600 flex-grow">Bangun reputasi digitalmu. Tampilkan keahlian, riwayat kontribusi, serta raih sertifikat dan achievement dari setiap proyek.</p>
+                         <a href="#" data-modal="profil-modal" class="project-detail-btn font-semibold text-indigo-600 hover:underline mt-4 self-start">Lihat Contoh Profil →</a>
+                    </div>
+                    <!-- Feature Card 5: AI Mentor -->
+                    <div class="card-hover bg-white p-8 rounded-lg border border-gray-200 flex flex-col">
+                        <div class="flex items-start space-x-6 mb-4">
+                            <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 flex-shrink-0"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.32 0L12 2.69z"></path><path d="M12 11.25V14"></path><path d="M12 17h.01"></path></svg></div>
+                            <h3 class="text-xl font-semibold pt-3">AI Mentor Pribadi</h3>
+                        </div>
+                        <p class="text-gray-600 flex-grow">Dapatkan saran pengembangan ide, rekomendasi sumber belajar, dan panduan langkah demi langkah dari mentor AI yang selalu siap membantumu.</p>
+                        <a href="#" data-modal="ai-mentor-modal" class="project-detail-btn font-semibold text-indigo-600 hover:underline mt-4 self-start">Mulai Bertanya →</a>
+                    </div>
+                    <!-- Feature Card 6: Event Space -->
+                    <div class="card-hover bg-white p-8 rounded-lg border border-gray-200 flex flex-col">
+                        <div class="flex items-start space-x-6 mb-4">
+                            <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 flex-shrink-0"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></div>
+                            <h3 class="text-xl font-semibold pt-3">Ruang Event Digital</h3>
+                        </div>
+                        <p class="text-gray-600 flex-grow">Ikuti atau adakan webinar, workshop, dan kompetisi kolaboratif antar sekolah untuk memperluas wawasan dan jaringanmu.</p>
+                        <a href="#" data-modal="event-space-modal" class="project-detail-btn font-semibold text-indigo-600 hover:underline mt-4 self-start">Jelajahi Event →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Showcase Proyek Section -->
+        <section id="proyek" class="py-20 bg-white hidden">
+             <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800">Showcase Karya Digital</h2>
+                    <p class="text-gray-600 mt-2">Karya inovatif pilihan hasil kurasi AI dan tim moderator, lahir dari kolaborasi di SchoolNet.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- AR Project Card -->
+                    <div class="showcase-card bg-gray-50 rounded-lg shadow-lg overflow-hidden group border border-gray-200">
+                        <div class="overflow-hidden"><img src="https://placehold.co/600x400/667eea/ffffff?text=Proyek+AR" alt="Proyek Augmented Reality" class="w-full h-56 object-cover"></div>
+                        <div class="p-6">
+                            <span class="text-sm text-indigo-500 font-semibold">Teknologi</span>
+                            <h3 class="text-xl font-semibold my-2">Aplikasi Edukasi AR</h3>
+                            <p class="text-gray-600 mb-4 text-sm">Melalui teknologi AR, objek 3D seperti anatomi tubuh divisualisasikan untuk membantu pelajar memahami konsep sulit secara interaktif.</p>
+                            <a href="#" data-modal="ar-modal" class="font-semibold text-indigo-600 hover:underline project-detail-btn">Lihat Detail →</a>
+                        </div>
+                    </div>
+                    <!-- Energi Project Card -->
+                    <div class="showcase-card bg-gray-50 rounded-lg shadow-lg overflow-hidden group border border-gray-200">
+                         <div class="overflow-hidden"><img src="https://placehold.co/600x400/9f7aea/ffffff?text=Riset+Sains" alt="Proyek Riset Sains" class="w-full h-56 object-cover"></div>
+                        <div class="p-6">
+                            <span class="text-sm text-purple-500 font-semibold">Sains</span>
+                            <h3 class="text-xl font-semibold my-2">Riset Energi Terbarukan</h3>
+                            <p class="text-gray-600 mb-4 text-sm">Mengeksplorasi potensi energi terbarukan untuk menemukan solusi inovatif yang mendukung kemandirian energi di masyarakat pedesaan.</p>
+                            <a href="#" data-modal="energi-modal" class="font-semibold text-purple-600 hover:underline project-detail-btn">Lihat Detail →</a>
+                        </div>
+                    </div>
+                    <!-- Literasi Project Card -->
+                    <div class="showcase-card bg-gray-50 rounded-lg shadow-lg overflow-hidden group border border-gray-200">
+                         <div class="overflow-hidden"><img src="https://placehold.co/600x400/ed8936/ffffff?text=Proyek+Sosial" alt="Proyek Sosial" class="w-full h-56 object-cover"></div>
+                        <div class="p-6">
+                            <span class="text-sm text-orange-500 font-semibold">Sosial</span>
+                            <h3 class="text-xl font-semibold my-2">Kampanye Digital Literasi</h3>
+                            <p class="text-gray-600 mb-4 text-sm">Menciptakan konten edukatif tentang bahaya hoaks, keamanan data, dan etika digital untuk membangun generasi muda yang cerdas.</p>
+                            <a href="#" data-modal="literasi-modal" class="font-semibold text-orange-600 hover:underline project-detail-btn">Lihat Detail →</a>
+                        </div>
+                    </div>
+                    <!-- New Card 1: Seni & Budaya -->
+                    <div class="showcase-card bg-gray-50 rounded-lg shadow-lg overflow-hidden group border border-gray-200">
+                         <div class="overflow-hidden"><img src="https://placehold.co/600x400/d53f8c/ffffff?text=Seni+Budaya" alt="Proyek Seni & Budaya" class="w-full h-56 object-cover"></div>
+                        <div class="p-6">
+                            <span class="text-sm text-pink-500 font-semibold">Seni & Budaya</span>
+                            <h3 class="text-xl font-semibold my-2">Animasi Cerita Rakyat</h3>
+                            <p class="text-gray-600 mb-4 text-sm">Menghidupkan kembali cerita rakyat Indonesia melalui serial animasi pendek, hasil kolaborasi siswa SMK Multimedia dan mahasiswa Sastra.</p>
+                            <a href="#" data-modal="seni-modal" class="font-semibold text-pink-600 hover:underline project-detail-btn">Lihat Detail →</a>
+                        </div>
+                    </div>
+                    <!-- New Card 2: Kewirausahaan -->
+                    <div class="showcase-card bg-gray-50 rounded-lg shadow-lg overflow-hidden group border border-gray-200">
+                         <div class="overflow-hidden"><img src="https://placehold.co/600x400/38b2ac/ffffff?text=Wirausaha" alt="Proyek Kewirausahaan" class="w-full h-56 object-cover"></div>
+                        <div class="p-6">
+                            <span class="text-sm text-teal-500 font-semibold">Kewirausahaan</span>
+                            <h3 class="text-xl font-semibold my-2">Platform UMKM Naik Kelas</h3>
+                            <p class="text-gray-600 mb-4 text-sm">Membantu UMKM lokal go-digital dengan platform website sederhana, dikembangkan oleh siswa SMK Pemasaran dan mahasiswa IT.</p>
+                            <a href="#" data-modal="wirausaha-modal" class="font-semibold text-teal-600 hover:underline project-detail-btn">Lihat Detail →</a>
+                        </div>
+                    </div>
+                     <!-- New Card 3: Placeholder/CTA -->
+                    <div data-modal="kolaborasi-modal" class="project-detail-btn showcase-card bg-indigo-50 rounded-lg shadow-inner border-2 border-dashed border-indigo-300 flex flex-col items-center justify-center p-6 text-center group cursor-pointer hover:border-indigo-400 hover:bg-indigo-100 transition">
+                        <div class="bg-indigo-200 text-indigo-600 rounded-full p-4 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14m-7-7h14" /></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold my-2 text-indigo-800">Proyekmu Berikutnya?</h3>
+                        <p class="text-gray-600 mb-4 text-sm">Punya ide brilian? Mulai diskusikan, bentuk tim, dan tampilkan karyamu di sini agar dilihat oleh seluruh Indonesia.</p>
+                    </div>
+                </div>
+
+                <!-- Call to Action Section -->
+                <div class="mt-20 text-center bg-white p-12 rounded-lg shadow-lg border">
+                    <h2 class="text-3xl font-bold text-gray-800">Punya Proyek Keren?</h2>
+                    <p class="text-gray-600 mt-2 mb-6 max-w-xl mx-auto">Jangan simpan idemu sendirian. Bagikan, kembangkan, dan wujudkan bersama talenta terbaik dari seluruh nusantara.</p>
+                    <a href="#" data-page="fitur" class="nav-link bg-indigo-600 text-white font-bold py-3 px-8 rounded-full hover:bg-indigo-700 transition text-lg inline-block">Mulai Kolaborasi Sekarang</a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- FAQ Page Section -->
+        <section id="faq-page" class="py-20 bg-gray-50 hidden">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-3 gap-12 items-start">
+                    <div class="md:col-span-1">
+                        <h2 class="text-3xl font-bold text-gray-800">Punya Pertanyaan?</h2>
+                        <p class="text-gray-600 mt-4 mb-6">Kami di sini untuk membantu. Jika Anda tidak menemukan jawaban yang Anda cari, jangan ragu untuk menghubungi kami.</p>
+                        <a href="#" data-modal="ai-support-modal" class="project-detail-btn inline-block bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-indigo-700 transition">
+                            Hubungi Tim Support
+                        </a>
+                    </div>
+                    <div class="md:col-span-2 max-w-3xl space-y-4" id="faq-accordion-page">
+                        <!-- FAQ Item 1 -->
+                        <div class="faq-item border rounded-lg bg-white shadow-sm overflow-hidden">
+                            <button class="faq-question w-full flex justify-between items-center text-left p-5 transition hover:bg-gray-50">
+                                <span class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4 text-indigo-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A1 1 0 012 10V5a1 1 0 011-1h5a1 1 0 01.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                                    </svg>
+                                    <span class="text-lg font-semibold text-gray-800">Apakah platform SchoolNet gratis digunakan?</span>
+                                </span>
+                                <svg class="faq-icon w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                            </button>
+                            <div class="faq-answer text-gray-600">
+                                <p class="pt-2 pb-5 px-5">Tentu saja. SchoolNet sepenuhnya gratis untuk seluruh pelajar, mahasiswa, dan mentor di Indonesia. Misi utama kami adalah menghilangkan segala hambatan agar kolaborasi dan inovasi dapat tumbuh tanpa batas.</p>
+                            </div>
+                        </div>
+                        <!-- FAQ Item 2 -->
+                        <div class="faq-item border rounded-lg bg-white shadow-sm overflow-hidden">
+                            <button class="faq-question w-full flex justify-between items-center text-left p-5 transition hover:bg-gray-50">
+                                <span class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4 text-indigo-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                                    </svg>
+                                    <span class="text-lg font-semibold text-gray-800">Bagaimana keamanan data dan proyek saya?</span>
+                                </span>
+                                 <svg class="faq-icon w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                            </button>
+                            <div class="faq-answer text-gray-600">
+                                <p class="pt-2 pb-5 px-5">Kami sangat memprioritaskan keamanan. Semua data dienkripsi menggunakan standar industri. Proyek yang Anda kerjakan bersifat pribadi dan hanya dapat diakses oleh anggota tim yang Anda undang. Anda memiliki kontrol penuh atas siapa yang dapat melihat karya Anda.</p>
+                            </div>
+                        </div>
+                        <!-- FAQ Item 3 -->
+                        <div class="faq-item border rounded-lg bg-white shadow-sm overflow-hidden">
+                            <button class="faq-question w-full flex justify-between items-center text-left p-5 transition hover:bg-gray-50">
+                                <span class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4 text-indigo-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 15a4 4 0 00-8 0v3h8v-3z" />
+                                    </svg>
+                                    <span class="text-lg font-semibold text-gray-800">Siapa saja yang bisa menjadi mentor di platform ini?</span>
+                                </span>
+                                 <svg class="faq-icon w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                            </button>
+                            <div class="faq-answer text-gray-600">
+                                <p class="pt-2 pb-5 px-5">Mentor kami adalah para profesional industri, akademisi, peneliti, dan mahasiswa tingkat akhir yang memiliki keahlian di bidangnya masing-masing. Mereka telah melalui proses verifikasi oleh tim SchoolNet dan bergabung dengan semangat untuk berbagi ilmu serta membimbing generasi inovator berikutnya.</p>
+                            </div>
+                        </div>
+                         <!-- FAQ Item 4 -->
+                        <div class="faq-item border rounded-lg bg-white shadow-sm overflow-hidden">
+                            <button class="faq-question w-full flex justify-between items-center text-left p-5 transition hover:bg-gray-50">
+                                <span class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4 text-indigo-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2l4.5.21a1 1 0 01.548 1.756l-3.4 2.944.918 4.34a1 1 0 01-1.52.94L12 14.85l-3.99 2.53a1 1 0 01-1.52-.94l.918-4.34-3.4-2.944a1 1 0 01.548-1.756l4.5-.21L11.033 2.744A1 1 0 0112 2z" clip-rule="evenodd" />
+                                    </svg>
+                                    <span class="text-lg font-semibold text-gray-800">Bagaimana sebuah proyek bisa ditampilkan di Showcase?</span>
+                                </span>
+                                 <svg class="faq-icon w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                            </button>
+                            <div class="faq-answer text-gray-600">
+                                <p class="pt-2 pb-5 px-5">Proyek yang ditampilkan di Showcase adalah proyek-proyek terbaik yang telah selesai dan dikurasi oleh tim kami. Kriteria penilaian meliputi orisinalitas ide, kualitas eksekusi, dampak positif yang dihasilkan, dan semangat kolaborasi yang ditunjukkan oleh tim selama pengerjaan.</p>
+                            </div>
+                        </div>
+                        <!-- FAQ Item 5 -->
+                        <div class="faq-item border rounded-lg bg-white shadow-sm overflow-hidden">
+                            <button class="faq-question w-full flex justify-between items-center text-left p-5 transition hover:bg-gray-50">
+                                <span class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4 text-indigo-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M10 3a1 1 0 01.832.445l5.5 9A1 1 0 0115.5 14H4.5a1 1 0 01-.832-1.555l5.5-9A1 1 0 0110 3zm0 2.45L6.052 12H13.948L10 5.45z" clip-rule="evenodd" />
+                                        <path d="M3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" />
+                                    </svg>
+                                    <span class="text-lg font-semibold text-gray-800">Proyek seperti apa yang bisa saya kerjakan di SchoolNet?</span>
+                                </span>
+                                 <svg class="faq-icon w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                            </button>
+                            <div class="faq-answer text-gray-600">
+                                <p class="pt-2 pb-5 px-5">Tidak ada batasan! Anda bisa mengerjakan proyek apa pun, mulai dari riset sains, pengembangan aplikasi, kampanye sosial, pembuatan film pendek, hingga karya seni. Selama itu adalah ide positif yang mendorong kolaborasi, SchoolNet adalah tempat yang tepat untuk memulainya.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- CTA Section -->
+    <section class="bg-indigo-700 no-print">
+        <div class="container mx-auto px-6 py-16 text-center text-white">
+            <h2 class="text-3xl font-bold mb-4">Siap Berkolaborasi dan Ciptakan Karyamu?</h2>
+            <p class="mb-8 max-w-2xl mx-auto">Bergabunglah dengan ribuan pelajar dan mahasiswa lainnya. Wujudkan ide terbaikmu menjadi kenyataan di SchoolNet.</p>
+            <a href="#" id="footer-join-btn" class="bg-white text-indigo-700 font-bold py-3 px-8 rounded-full hover:bg-gray-200 transition text-lg">Gabung Sekarang</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white pt-16 pb-8 no-print">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-8 text-center md:text-left">
+                <!-- Brand Info -->
+                <div class="md:col-span-2">
+                    <h3 class="text-2xl font-bold mb-2 flex items-center space-x-2 justify-center md:justify-start">
+                        <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 8C10.6569 8 12 6.65685 12 5C12 3.34315 10.6569 2 9 2C7.34315 2 6 3.34315 6 5C6 6.65685 7.34315 8 9 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 22C10.6569 22 12 20.6569 12 19C12 17.3431 10.6569 16 9 16C7.34315 16 6 17.3431 6 19C6 20.6569 7.34315 22 9 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M18 15C19.6569 15 21 13.6569 21 12C21 10.3431 19.6569 9 18 9C16.3431 9 15 10.3431 15 12C15 13.6569 16.3431 15 18 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M11.5 6.5L15.5 10.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M11.5 17.5L15.5 13.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>SchoolNet</span>
+                    </h3>
+                    <p class="text-gray-400 max-w-md">Platform kolaborasi digital yang menghubungkan pelajar SMA/SMK dan mahasiswa dari seluruh Indonesia untuk saling bertukar ide, berdiskusi, dan menciptakan karya nyata lintas bidang.</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-semibold mb-4 tracking-wider">Navigasi</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" data-page="home-content" class="nav-link text-gray-400 hover:text-white transition">Home</a></li>
+                        <li><a href="#" data-page="fitur" class="nav-link text-gray-400 hover:text-white transition">Fitur</a></li>
+                        <li><a href="#" data-page="proyek" class="nav-link text-gray-400 hover:text-white transition">Showcase</a></li>
+                        <li><a href="#" data-page="faq-page" class="nav-link text-gray-400 hover:text-white transition">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <!-- Social Media -->
+                <div>
+                    <h4 class="font-semibold mb-4 tracking-wider">Ikuti Kami</h4>
+                    <div class="flex justify-center md:justify-start space-x-4">
+                        <a href="https://www.instagram.com/joshh_ptra/" aria-label="Instagram" class="text-gray-400 hover:text-white transition" target="_blank" rel="noopener noreferrer">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919C8.416 2.175 8.796 2.163 12 2.163m0-1.623C8.724.54 8.374.551 7.105.609c-3.584.163-6.168 2.743-6.331 6.331C.717 8.374.706 8.724.706 12s.011 3.626.069 4.895c.163 3.584 2.743 6.168 6.331 6.331C8.374 23.283 8.724 23.294 12 23.294s3.626-.011 4.895-.069c3.584-.163 6.168-2.743 6.331-6.331.058-1.27.069-1.62.069-4.895s-.011-3.626-.069-4.895C22.257 3.35 19.673.766 16.09.609 14.821.551 14.471.54 12 .54z"></path><path d="M12 6.865A5.135 5.135 0 1012 17.135 5.135 5.135 0 0012 6.865zm0 8.58A3.445 3.445 0 1112 8.58a3.445 3.445 0 010 6.865z"></path><path d="M16.949 7.854a1.282 1.282 0 100-2.564 1.282 1.282 0 000 2.564z"></path></svg>
+                        </a>
+                        <a href="https://www.youtube.com/@jojo_putraa" aria-label="YouTube" class="text-gray-400 hover:text-white transition" target="_blank" rel="noopener noreferrer">
+                           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M21.543 6.498C22 8.28 22 12 22 12s0 3.72-.457 5.502c-.254.985-.997 1.76-1.938 2.022C17.896 20 12 20 12 20s-5.893 0-7.605-.476c-.94-.262-1.683-1.037-1.938-2.022C2 15.72 2 12 2 12s0-3.72.457-5.502c.254-.985.997-1.76 1.938-2.022C6.107 4 12 4 12 4s5.896 0 7.605.476c.94.262 1.683 1.037 1.938 2.022zM10 15.5l6-3.5-6-3.5v7z"></path></svg>
+                        </a>
+                        <a href="https://www.linkedin.com/in/joshhpratama/" aria-label="LinkedIn" class="text-gray-400 hover:text-white transition" target="_blank" rel="noopener noreferrer">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400 text-sm">
+    <p>&copy; 2025 SchoolNet by Jorsh-hub. All rights reserved.</p>
+
+    <p class="mt-2 text-xs">
+    Asia/Jakarta (WIB): 
+    <span id="currentTime" class="font-semibold text-white">
+        </span>
+    </p>
+    </div>
+    </footer>
+    
+    <!-- All Modals -->
+    <div id="login-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4 modal-overlay no-print">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-md p-8 relative">
+            <button class="close-project-modal-btn absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-2">Masuk ke SchoolNet</h2>
+            <p class="text-center text-gray-500 mb-6">Lanjutkan untuk berkolaborasi!</p>
+            <form>
+                <div class="mb-4">
+                    <label for="username" class="block text-gray-700 text-sm font-semibold mb-2">Username atau Email</label>
+                    <input type="text" id="username" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Masukkan username Anda">
+                </div>
+                <div class="mb-6">
+                    <label for="password" class="block text-gray-700 text-sm font-semibold mb-2">Password</label>
+                    <input type="password" id="password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Masukkan password Anda">
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition font-semibold">Masuk</button>
+            </form>
+            <div class="flex items-center my-6">
+                <div class="flex-grow border-t border-gray-300"></div>
+                <span class="flex-shrink mx-4 text-gray-400 text-sm">atau</span>
+                <div class="flex-grow border-t border-gray-300"></div>
+            </div>
+            <button id="google-login-btn" class="w-full bg-white border border-gray-300 text-gray-700 py-2 rounded-md hover:bg-gray-50 transition flex items-center justify-center font-semibold">
+                <svg class="w-5 h-5 mr-2" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M44.5 24.3H24V32.3H35.6C34.1 36.8 30.1 40 24.5 40C17.5 40 12 34.5 12 27.5C12 20.5 17.5 15 24.5 15C27.5 15 30.2 16.1 32.2 17.9L37.8 12.3C34.3 9.1 29.8 7 24.5 7C14.8 7 7 14.8 7 24.5C7 34.2 14.8 42 24.5 42C34.2 42 42 34.2 42 24.5C42 23.1 41.9 21.7 41.6 20.3C40.8 18.2 39 16 36.6 14.1L32.2 17.9C33.7 19.4 34.8 21.5 35.6 24.3H44.5Z" fill="#4285F4"></path><path d="M4.9 14.9L10.5 19.3C12.4 15.4 16.6 12.7 21.5 12.7C23.2 12.7 24.9 13.1 26.4 13.9L31.9 8.4C28.6 6.3 24.9 5 21.5 5C14.2 5 7.8 9.7 4.9 15.9L4.9 14.9Z" fill="#FBBC05"></path><path d="M43.6 25.1L37.9 29.5C36.2 33.4 32.1 36.1 27.2 36.1C25.5 36.1 23.8 35.7 22.3 34.9L16.8 40.4C20.1 42.5 23.8 43.8 27.2 43.8C34.5 43.8 40.9 39.1 43.8 32.9L43.6 25.1Z" fill="#34A853"></path><path d="M22.3 12.1L16.8 6.6C13.5 8.7 11.2 12.2 10.5 16.1L16.1 20.5C17.9 16.6 22.1 13.9 27 13.9C28.7 13.9 30.4 14.3 31.9 15.1L37.4 9.6C34.1 7.5 30.4 6.2 27 6.2C19.7 6.2 13.3 10.9 10.4 17.1L22.3 12.1Z" fill="#EA4335"></path></svg>
+                Masuk dengan Google
+            </button>
+        </div>
+    </div>
+    <div id="ar-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4 modal-overlay no-print">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-3xl relative project-modal-content">
+            <button class="close-project-modal-btn absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-3xl z-10">&times;</button>
+            <div class="p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Aplikasi Edukasi AR: Belajar Biologi dengan Visual 3D</h2>
+                <p class="text-gray-600 mb-6">Proyek ini merupakan kolaborasi antara siswa dan mahasiswa dalam pengembangan aplikasi Augmented Reality (AR) yang berfungsi untuk membuat proses pembelajaran menjadi lebih interaktif. Melalui teknologi AR, objek-objek 3D seperti anatomi tubuh manusia dapat divisualisasikan langsung di layar perangkat pengguna.</p>
+                
+                <div class="bg-gray-800 rounded-lg mb-6 flex items-center justify-center h-64 relative group cursor-pointer">
+                    <div class="absolute inset-0 bg-black opacity-30 group-hover:opacity-50 transition-opacity rounded-lg"></div>
+                    <div class="relative flex flex-col items-center text-white">
+                        <svg class="w-16 h-16 text-white opacity-80 group-hover:opacity-100 transition-opacity" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                        <p class="mt-2 text-lg font-semibold">Lihat Demo Video</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-6">
+                    <div>
+                        <h3 class="font-semibold text-lg mb-2">Tim Kolaborator</h3>
+                        <ul class="list-disc list-inside text-gray-600">
+                            <li>Andi Pratama (Siswa, SMA 3 Bandung)</li>
+                            <li>Citra Kirana (Mahasiswa, ITB)</li>
+                            <li>Budi Santoso (Mahasiswa, ITB)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-lg mb-2">Tujuan & Manfaat</h3>
+                        <ul class="list-disc list-inside text-gray-600">
+                            <li>Meningkatkan pemahaman konsep biologi.</li>
+                            <li>Membuat belajar lebih menarik & interaktif.</li>
+                            <li>Mengembangkan skill teknologi di kalangan siswa.</li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="w-full bg-indigo-600 text-white py-3 rounded-md hover:bg-indigo-700 transition font-semibold">Coba Demo</button>
+            </div>
+        </div>
+    </div>
+    <div id="energi-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4 modal-overlay no-print">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-3xl relative project-modal-content">
+            <button class="close-project-modal-btn absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-3xl z-10">&times;</button>
+            <div class="p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Riset Energi Surya di Wilayah Pedesaan</h2>
+                <p class="text-gray-600 mb-6">Proyek ini berfokus pada penelitian dan pengembangan sumber energi ramah lingkungan. Kolaborasi dilakukan antara pelajar tingkat menengah dan mahasiswa dalam mengeksplorasi potensi energi terbarukan, seperti tenaga surya, untuk mendukung kemandirian energi di masyarakat lokal.</p>
+                
+                <div class="bg-gray-200 rounded-lg mb-6 flex items-center justify-center p-4">
+                     <img src="https://image-charts.com/chart?cht=bvg&chs=500x250&chd=t:40,80,100,85,50,15&chxt=x,y&chxl=0:|08:00|10:00|12:00|14:00|16:00|18:00&chtt=Output+Daya+Panel+Surya+(Watt)&chco=805AD5" alt="Grafik Hasil Uji Panel Surya" class="object-contain rounded-md shadow-lg">
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-6">
+                    <div>
+                        <h3 class="font-semibold text-lg mb-2">Tim Riset</h3>
+                        <ul class="list-disc list-inside text-gray-600">
+                            <li>Dewi Lestari (Siswa, MAN 2 Malang)</li>
+                            <li>Rahmat Hidayat (Mahasiswa, UGM)</li>
+                            <li>Prof. Dr. Ir. Suryo (Mentor, UGM)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-lg mb-2">Dampak Sosial & Lingkungan</h3>
+                         <ul class="list-disc list-inside text-gray-600">
+                            <li>Solusi energi bersih untuk desa.</li>
+                            <li>Mengurangi ketergantungan pada fosil.</li>
+                            <li>Peluang ekonomi lokal.</li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="w-full bg-purple-600 text-white py-3 rounded-md hover:bg-purple-700 transition font-semibold">Unduh Laporan PDF</button>
+            </div>
+        </div>
+    </div>
+    <div id="literasi-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4 modal-overlay no-print">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-3xl relative project-modal-content">
+            <button class="close-project-modal-btn absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-3xl z-10">&times;</button>
+            <div class="p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">#CerdasDigital: Gerakan Anti Hoaks untuk Pelajar Indonesia</h2>
+                <p class="text-gray-600 mb-6">Proyek ini bertujuan meningkatkan kesadaran literasi digital di kalangan pelajar. Melalui kampanye ini, pelajar dan mahasiswa bekerja sama menciptakan konten edukatif tentang bahaya hoaks, keamanan data pribadi, serta etika berkomunikasi digital untuk membangun generasi muda yang kritis.</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+                    <img src="https://placehold.co/300x400/ed8936/ffffff?text=Poster+Kampanye" alt="Poster Kampanye" class="rounded-lg shadow-md">
+                    <img src="https://placehold.co/300x400/ed8936/ffffff?text=Infografik" alt="Infografik" class="rounded-lg shadow-md">
+                     <img src="https://placehold.co/300x400/ed8936/ffffff?text=Konten+Sosmed" alt="Konten Sosmed" class="rounded-lg shadow-md hidden md:block">
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg mb-6">
+                    <h3 class="font-semibold text-lg mb-3">Diskusi Publik</h3>
+                    <div class="space-y-3">
+                        <div class="text-sm"><strong>Kevin S:</strong> "Materinya keren, sangat relate dengan kondisi sekarang!"</div>
+                        <div class="text-sm"><strong>Putri A:</strong> "Bagaimana cara bergabung jadi volunter?"</div>
+                    </div>
+                </div>
+                <button class="w-full bg-orange-500 text-white py-3 rounded-md hover:bg-orange-600 transition font-semibold">Gabung Kampanye</button>
+            </div>
+        </div>
+    </div>
+    <div id="seni-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4 modal-overlay no-print">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-3xl relative project-modal-content">
+            <button class="close-project-modal-btn absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-3xl z-10">&times;</button>
+            <div class="p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">"Si Kancil Reborn": Serial Animasi Cerita Rakyat</h2>
+                <p class="text-gray-600 mb-6">Proyek ini bertujuan melestarikan budaya melalui media modern. Siswa SMK jurusan Animasi berkolaborasi dengan mahasiswa Sastra Jawa untuk mengadaptasi cerita "Si Kancil" ke dalam serial animasi 2D yang menarik bagi generasi Z.</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+                    <img src="https://placehold.co/300x400/d53f8c/ffffff?text=Storyboard" alt="Storyboard" class="rounded-lg shadow-md">
+                    <img src="https://placehold.co/300x400/d53f8c/ffffff?text=Desain+Karakter" alt="Desain Karakter" class="rounded-lg shadow-md">
+                     <img src="https://placehold.co/300x400/d53f8c/ffffff?text=Scene+1" alt="Scene" class="rounded-lg shadow-md hidden md:block">
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 mb-6">
+                    <div>
+                        <h3 class="font-semibold text-lg mb-2">Tim Kreatif</h3>
+                        <ul class="list-disc list-inside text-gray-600">
+                            <li>Joko (Siswa, SMK 5 Yogyakarta)</li>
+                            <li>Sari (Mahasiswa, UGM)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-lg mb-2">Tujuan Proyek</h3>
+                         <ul class="list-disc list-inside text-gray-600">
+                            <li>Melestarikan cerita rakyat.</li>
+                            <li>Meningkatkan minat baca anak.</li>
+                            <li>Menjadi portofolio bagi kreator.</li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="w-full bg-pink-600 text-white py-3 rounded-md hover:bg-pink-700 transition font-semibold">Tonton Episode 1 (YouTube)</button>
+            </div>
+        </div>
+    </div>
+    <div id="wirausaha-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4 modal-overlay no-print">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-3xl relative project-modal-content">
+            <button class="close-project-modal-btn absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-3xl z-10">&times;</button>
+            <div class="p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">"Warung Digital": Platform Website untuk UMKM</h2>
+                <p class="text-gray-600 mb-6">Banyak UMKM hebat kesulitan untuk online. Proyek ini menciptakan platform website builder yang sangat mudah digunakan, dirancang khusus untuk kebutuhan warung, toko kelontong, dan usaha kecil lainnya. Sebuah kolaborasi antara keahlian pemasaran siswa SMK dan kemampuan coding mahasiswa IT.</p>
+                 <div class="bg-gray-200 rounded-lg mb-6 flex items-center justify-center p-4"><img src="https://placehold.co/500x250/38b2ac/ffffff?text=Contoh+Website+UMKM" alt="Contoh Website UMKM" class="object-contain rounded-md shadow-lg"></div>
+                <div class="grid md:grid-cols-2 gap-8 mb-6">
+                    <div>
+                        <h3 class="font-semibold text-lg mb-2">Tim Pengembang</h3>
+                        <ul class="list-disc list-inside text-gray-600">
+                            <li>Eka (Siswa, SMK 1 Surakarta)</li>
+                            <li>Fajar (Mahasiswa, UNS)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-lg mb-2">Fitur Utama</h3>
+                         <ul class="list-disc list-inside text-gray-600">
+                            <li>Template siap pakai.</li>
+                            <li>Integrasi WhatsApp.</li>
+                            <li>Upload produk mudah.</li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="w-full bg-teal-500 text-white py-3 rounded-md hover:bg-teal-600 transition font-semibold">Lihat Contoh Website</button>
+            </div>
+        </div>
+    </div>
+    <div id="forum-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4 modal-overlay no-print">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-4xl relative project-modal-content">
+            <button class="close-project-modal-btn absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-3xl z-10">&times;</button>
+            <div class="flex h-[70vh]">
+                <div class="w-1/3 bg-gray-50 p-4 border-r rounded-l-lg overflow-y-auto">
+                    <h3 class="font-bold text-lg mb-4">Topik Diskusi</h3>
+                    <ul id="forum-topics" class="space-y-1">
+                        <li><a href="#" class="forum-topic-link block p-3 rounded-md bg-indigo-100 text-indigo-700 font-semibold" data-topic="teknologi">#teknologi</a></li>
+                        <li><a href="#" class="forum-topic-link block p-3 rounded-md hover:bg-gray-200" data-topic="sains">#sains</a></li>
+                        <li><a href="#" class="forum-topic-link block p-3 rounded-md hover:bg-gray-200" data-topic="seni-budaya">#seni-budaya</a></li>
+                        <li><a href="#" class="forum-topic-link block p-3 rounded-md hover:bg-gray-200" data-topic="lingkungan">#lingkungan</a></li>
+                        <li><a href="#" class="forum-topic-link block p-3 rounded-md hover:bg-gray-200" data-topic="sosial-humaniora">#sosial-humaniora</a></li>
+                    </ul>
+                </div>
+                <div id="forum-chat-area" class="w-2/3 flex flex-col bg-white rounded-r-lg">
+                    <!-- Chat content will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="kolaborasi-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4 modal-overlay no-print">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl relative p-8">
+            <button class="close-project-modal-btn absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-3xl z-10">&times;</button>
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-2">Mulai Kolaborasi Proyek</h2>
+            <p class="text-center text-gray-500 mb-8">Wujudkan idemu menjadi nyata bersama tim yang hebat.</p>
+            <div class="grid md:grid-cols-2 gap-6">
+                <a href="#" data-modal="buat-tim-modal" class="project-detail-btn block p-8 bg-indigo-50 rounded-lg border-2 border-dashed border-indigo-200 text-center hover:bg-indigo-100 hover:border-indigo-400 transition">
+                    <svg class="mx-auto h-12 w-12 text-indigo-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <h3 class="mt-4 text-lg font-semibold text-indigo-800">Buat Tim Baru</h3>
+                </a>
+                 <a href="#" data-modal="gabung-tim-modal" class="project-detail-btn block p-8 bg-green-50 rounded-lg border-2 border-dashed border-green-200 text-center hover:bg-green-100 hover:border-green-400 transition">
+                    <svg class="mx-auto h-12 w-12 text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    <h3 class="mt-4 text-lg font-semibold text-green-800">Gabung Tim yang Ada</h3>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="buat-tim-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4 modal-overlay no-print">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl relative p-8 project-modal-content">
+            <button class="close-project-modal-btn absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-3xl z-10">&times;</button>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Buat Proyek Kolaborasi Baru</h2>
+            <p class="text-gray-500 mb-6">Isi detail di bawah ini untuk memulai proyekmu dan mengundang kolaborator.</p>
+            <form class="space-y-4">
+                <div>
+                    <label for="project-name" class="block text-sm font-medium text-gray-700">Nama Proyek</label>
+                    <input type="text" id="project-name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Contoh: Aplikasi Edukasi AR">
+                </div>
+                <div>
+                    <label for="project-desc" class="block text-sm font-medium text-gray-700">Deskripsi Singkat</label>
+                    <textarea id="project-desc" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Jelaskan tujuan dan hasil akhir dari proyekmu."></textarea>
+                </div>
+                <div>
+                    <label for="project-skills" class="block text-sm font-medium text-gray-700">Keahlian yang Dibutuhkan</label>
+                    <input type="text" id="project-skills" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Contoh: Desain UI/UX, Programming, Riset">
+                </div>
+                 <div>
+                    <button type="submit" class="w-full bg-indigo-600 text-white py-3 px-4 border border-transparent rounded-md shadow-sm text-base font-medium hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Buat Proyek & Undang Tim</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="gabung-tim-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4 modal-overlay no-print">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-3xl relative p-8 project-modal-content">
+            <button class="close-project-modal-btn absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-3xl z-10">&times;</button>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Temukan Proyek untuk Diikuti</h2>
+            <p class="text-gray-500 mb-6">Cari proyek yang sesuai dengan minat dan keahlianmu.</p>
+             <div class="mb-6">
+                <input type="text" placeholder="Cari berdasarkan nama proyek atau keahlian..." class="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+            <div class="space-y-4 max-h-[50vh] overflow-y-auto pr-2">
+                <div class="bg-white border p-4 rounded-lg flex flex-col md:flex-row items-start md:items-center gap-4">
+                    <div class="flex-grow">
+                        <h3 class="font-semibold text-indigo-800">Animasi Cerita Rakyat "Si Kancil"</h3>
+                        <p class="text-sm text-gray-500 mt-1">Mencari Animator 2D dan Penulis Naskah untuk menghidupkan kembali cerita klasik Indonesia.</p>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <span class="bg-pink-100 text-pink-800 px-2 py-0.5 rounded-full text-xs font-semibold">Animasi</span>
+                            <span class="bg-pink-100 text-pink-800 px-2 py-0.5 rounded-full text-xs font-semibold">Storytelling</span>
+                        </div>
+                    </div>
+                    <button class="bg-pink-600 text-white px-4 py-2 rounded-md hover:bg-pink-700 transition w-full md:w-auto flex-shrink-0">Ajukan Diri</button>
+                </div>
+                 <div class="bg-white border p-4 rounded-lg flex flex-col md:flex-row items-start md:items-center gap-4">
+                    <div class="flex-grow">
+                        <h3 class="font-semibold text-teal-800">Platform UMKM Go-Digital</h3>
+                        <p class="text-sm text-gray-500 mt-1">Dibutuhkan Web Developer (Frontend) untuk membantu UMKM lokal memasarkan produk secara online.</p>
+                         <div class="flex flex-wrap gap-2 mt-2">
+                            <span class="bg-teal-100 text-teal-800 px-2 py-0.5 rounded-full text-xs font-semibold">Web Dev</span>
+                            <span class="bg-teal-100 text-teal-800 px-2 py-0.5 rounded-full text-xs font-semibold">React</span>
+                             <span class="bg-teal-100 text-teal-800 px-2 py-0.5 rounded-full text-xs font-semibold">Pemasaran</span>
+                        </div>
+                    </div>
+                    <button class="bg-teal-500 text-white px-4 py-2 rounded-md hover:bg-teal-600 transition w-full md:w-auto flex-shrink-0">Ajukan Diri</button>
+                </div>
+                <div class="bg-white border p-4 rounded-lg flex flex-col md:flex-row items-start md:items-center gap-4">
+                    <div class="flex-grow">
+                        <h3 class="font-semibold text-purple-800">Riset Energi Terbarukan di Pedesaan</h3>
+                        <p class="text-sm text-gray-500 mt-1">Dicari anggota tim yang tertarik dengan riset sains untuk menguji efektivitas panel surya skala kecil.</p>
+                         <div class="flex flex-wrap gap-2 mt-2">
+                            <span class="bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full text-xs font-semibold">Sains</span>
+                            <span class="bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full text-xs font-semibold">Riset</span>
+                             <span class="bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full text-xs font-semibold">Energi</span>
+                        </div>
+                    </div>
+                    <button class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition w-full md:w-auto flex-shrink-0">Ajukan Diri</button>
+                </div>
+                <div class="bg-white border p-4 rounded-lg flex flex-col md:flex-row items-start md:items-center gap-4">
+                    <div class="flex-grow">
+                        <h3 class="font-semibold text-orange-800">Kampanye Digital Literasi Anti-Hoax</h3>
+                        <p class="text-sm text-gray-500 mt-1">Bergabunglah sebagai content creator atau social media strategist untuk menyebarkan kesadaran digital.</p>
+                         <div class="flex flex-wrap gap-2 mt-2">
+                            <span class="bg-orange-100 text-orange-800 px-2 py-0.5 rounded-full text-xs font-semibold">Sosial</span>
+                            <span class="bg-orange-100 text-orange-800 px-2 py-0.5 rounded-full text-xs font-semibold">Content Creator</span>
+                        </div>
+                    </div>
+                    <button class="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 transition w-full md:w-auto flex-shrink-0">Ajukan Diri</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="moderator-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4 modal-overlay no-print">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-3xl relative p-8 project-modal-content">
+            <button class="close-project-modal-btn absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-3xl z-10">&times;</button>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Dasbor Reputasi AI</h2>
+            <p class="text-gray-500 mb-8">AI kami menilai setiap interaksi untuk menjaga lingkungan kolaborasi yang positif.</p>
+
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <!-- Left side: Gauge Chart -->
+                <div class="flex flex-col items-center justify-center p-4 md:border-r">
+                    <div class="relative w-48 h-48">
+                        <svg class="w-full h-full" viewBox="0 0 100 100">
+                            <circle class="text-gray-200" stroke-width="10" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50" />
+                            <circle class="text-green-500 gauge-circle-progress" stroke-width="10" stroke-dasharray="283" stroke-dashoffset="0" stroke-linecap="round" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50" transform="rotate(-90 50 50)" />
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <span id="reputation-score-value" class="text-4xl font-bold text-gray-700">120</span>
+                            <span class="text-sm text-gray-500">Poin Reputasi</span>
+                        </div>
+                    </div>
+                     <div id="reputation-status" class="mt-4 text-center">
+                         <p class="font-semibold text-lg text-green-600">Kontributor Teladan</p>
+                         <p class="text-sm text-gray-500">Kamu adalah panutan di komunitas!</p>
+                     </div>
+                </div>
+
+                <!-- Right side: Score History -->
+                <div>
+                    <h3 class="font-semibold text-lg mb-3 text-gray-700">Riwayat Skor Terbaru</h3>
+                    <div class="space-y-3 max-h-48 overflow-y-auto pr-2">
+                        <div class="flex items-center text-sm p-2 bg-green-50 rounded-md">
+                            <span class="flex items-center justify-center w-5 h-5 rounded-full bg-green-100 text-green-600 mr-3 text-xs">+</span>
+                            <span>Menyelesaikan tugas proyek</span>
+                            <span class="ml-auto font-bold text-green-600">+5</span>
+                        </div>
+                        <div class="flex items-center text-sm p-2 bg-green-50 rounded-md">
+                            <span class="flex items-center justify-center w-5 h-5 rounded-full bg-green-100 text-green-600 mr-3 text-xs">+</span>
+                            <span>Memberi masukan membangun</span>
+                            <span class="ml-auto font-bold text-green-600">+2</span>
+                        </div>
+                         <div class="flex items-center text-sm p-2 bg-red-50 rounded-md">
+                            <span class="flex items-center justify-center w-5 h-5 rounded-full bg-red-100 text-red-600 mr-3 text-xs">-</span>
+                            <span>Komentar tidak relevan</span>
+                            <span class="ml-auto font-bold text-red-600">-5</span>
+                        </div>
+                        <div class="flex items-center text-sm p-2 bg-green-50 rounded-md">
+                            <span class="flex items-center justify-center w-5 h-5 rounded-full bg-green-100 text-green-600 mr-3 text-xs">+</span>
+                            <span>Membantu anggota lain</span>
+                            <span class="ml-auto font-bold text-green-600">+3</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-10">
+                <h3 class="font-semibold text-lg mb-4 text-center text-gray-700">Tingkatan Reputasi & Konsekuensi</h3>
+                <div class="space-y-4">
+                    <div class="border-l-4 border-green-500 bg-green-50 p-4 rounded-r-lg">
+                        <h4 class="font-bold text-green-800">111 - 120: Kontributor Teladan</h4>
+                        <p class="text-sm text-gray-600">Akses penuh ke semua fitur. Kamu adalah panutan di komunitas!</p>
+                    </div>
+                     <div class="border-l-4 border-blue-500 bg-blue-50 p-4 rounded-r-lg">
+                        <h4 class="font-bold text-blue-800">76 - 110: Kontributor Baik</h4>
+                        <p class="text-sm text-gray-600">Akses penuh ke semua fitur. Terus pertahankan kontribusi positifmu.</p>
+                    </div>
+                     <div class="border-l-4 border-yellow-500 bg-yellow-50 p-4 rounded-r-lg">
+                        <h4 class="font-bold text-yellow-800">51 - 75: Peringatan</h4>
+                        <p class="text-sm text-gray-600">Komentar dan post barumu mungkin memerlukan moderasi sebelum tampil. Tingkatkan interaksi positif untuk menaikkan skor.</p>
+                    </div>
+                     <div class="border-l-4 border-red-500 bg-red-50 p-4 rounded-r-lg">
+                        <h4 class="font-bold text-red-800">0 - 50: Dibatasi</h4>
+                        <p class="text-sm text-gray-600">Fitur untuk memulai diskusi dan proyek baru dibatasi sementara. Hubungi admin untuk bantuan lebih lanjut.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="profil-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4 modal-overlay no-print">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-4xl relative project-modal-content">
+            <button class="close-project-modal-btn absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-3xl z-10 no-print">&times;</button>
+            <div id="printable-profile" class="p-8">
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Left Column -->
+                    <div class="md:col-span-1 md:border-r md:pr-8 flex flex-col items-center text-center">
+                        <img src="https://placehold.co/150x150/667eea/ffffff?text=U" class="rounded-full border-4 border-indigo-200 shadow-lg" alt="User Avatar">
+                        <h2 class="text-3xl font-bold text-gray-800 mt-4">User Google</h2>
+                        <p class="text-gray-500">Mahasiswa, Institut Teknologi Bandung</p>
+                        
+                        <div class="my-6 w-full">
+                            <p class="text-sm text-gray-500">Skor Reputasi</p>
+                            <div class="bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-indigo-600 h-2.5 rounded-full" style="width: 100%"></div>
+                            </div>
+                            <p class="text-2xl font-bold text-indigo-600 mt-1">120</p>
+                        </div>
+    
+                        <div class="w-full space-y-3 no-print">
+                            <button onclick="window.print()" class="w-full bg-gray-700 text-white py-2 rounded-md hover:bg-gray-800 transition flex items-center justify-center font-semibold">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                                Cetak Portofolio
+                            </button>
+                            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://schoolnet.example.com/&title=Lihat%20Portofolio%20Saya%20di%20SchoolNet&summary=Saya%20telah%20membangun%20portofolio%20proyek%20kolaboratif%20saya%20di%20SchoolNet.%20Lihat%20kontribusi%20saya!&source=SchoolNet" target="_blank" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition flex items-center justify-center font-semibold">
+                                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                                Bagikan ke LinkedIn
+                            </a>
+                        </div>
+                    </div>
+    
+                    <!-- Right Column -->
+                    <div class="md:col-span-2 mt-8 md:mt-0">
+                        <div class="mb-6">
+                            <h3 class="font-bold text-xl mb-3 text-gray-800 border-b pb-2">Tentang Saya</h3>
+                            <p class="text-gray-600">Mahasiswa Teknik Informatika yang antusias dengan pengembangan web dan Augmented Reality. Senang belajar hal baru dan berkolaborasi dalam tim untuk menciptakan solusi teknologi yang bermanfaat bagi pendidikan.</p>
+                        </div>
+                        <div class="mb-6">
+                            <h3 class="font-bold text-xl mb-3 text-gray-800 border-b pb-2">Keahlian</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-semibold">Programming</span>
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-semibold">UI/UX Design</span>
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-semibold">React.js</span>
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-semibold">Node.js</span>
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-semibold">Public Speaking</span>
+                            </div>
+                        </div>
+                         <div class="mb-6">
+                            <h3 class="font-bold text-xl mb-3 text-gray-800 border-b pb-2">Riwayat Proyek</h3>
+                             <div class="border p-4 rounded-lg hover:bg-gray-50 transition">
+                                <p class="font-semibold text-indigo-700">Aplikasi Edukasi AR</p>
+                                <p class="text-sm text-gray-600">Kontribusi sebagai UI/UX Designer dan Frontend Developer.</p>
+                                <p class="text-xs text-gray-400 mt-1">Selesai: Okt 2025</p>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-xl mb-3 text-gray-800 border-b pb-2">Achievement</h3>
+                             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                                <!-- Earned -->
+                                <div class="p-2">
+                                    <div class="bg-yellow-100 text-yellow-600 rounded-full h-20 w-20 flex items-center justify-center text-4xl shadow-inner mx-auto">🏆</div>
+                                    <p class="text-sm mt-2 font-semibold">Inovator Muda</p>
+                                    <p class="text-xs text-gray-500">Ide proyek terbaik</p>
+                                </div>
+                                 <div class="p-2">
+                                    <div class="bg-green-100 text-green-600 rounded-full h-20 w-20 flex items-center justify-center text-4xl shadow-inner mx-auto">🤝</div>
+                                    <p class="text-sm mt-2 font-semibold">Kolaborator Aktif</p>
+                                     <p class="text-xs text-gray-500">5+ proyek</p>
+                                </div>
+                                <!-- Unearned -->
+                                <div class="p-2 grayscale opacity-60">
+                                    <div class="bg-gray-200 text-gray-500 rounded-full h-20 w-20 flex items-center justify-center text-4xl shadow-inner mx-auto">멘</div>
+                                    <p class="text-sm mt-2 font-semibold">Mentor Hebat</p>
+                                    <p class="text-xs text-gray-500">Membimbing 3+ proyek</p>
+                                </div>
+                                <div class="p-2 grayscale opacity-60">
+                                    <div class="bg-gray-200 text-gray-500 rounded-full h-20 w-20 flex items-center justify-center text-4xl shadow-inner mx-auto">⭐</div>
+                                    <p class="text-sm mt-2 font-semibold">Top Kontributor</p>
+                                    <p class="text-xs text-gray-500">Skor reputasi 150+</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="ai-mentor-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4 modal-overlay no-print">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl relative p-8 project-modal-content flex flex-col h-[80vh]">
+            <button class="close-project-modal-btn absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-3xl z-10">&times;</button>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">AI Mentor</h2>
+            <p class="text-gray-500 mb-6">Tanyakan apapun untuk proyekmu.</p>
+            <div id="ai-chat-box" class="bg-gray-50 p-4 rounded-lg flex-grow overflow-y-auto space-y-4">
+                <!-- AI Welcome Message -->
+                <div class="flex justify-start">
+                    <div class="bg-white border p-3 rounded-lg max-w-md">
+                        <p class="font-semibold text-indigo-700 mb-2">Halo! Saya AI Mentor.</p>
+                        <p class="text-sm text-gray-700">Ada ide proyek yang bisa saya bantu kembangkan? Coba tanyakan sesuatu seperti: "Bagaimana cara membuat proposal proyek yang baik?"</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <form id="ai-mentor-form" class="relative">
+                    <input type="text" id="ai-mentor-input" placeholder="Ketik pertanyaanmu di sini..." class="w-full pl-4 pr-12 py-3 border rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full h-10 w-10 flex items-center justify-center hover:bg-indigo-700 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="ai-support-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4 modal-overlay no-print">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl relative p-8 project-modal-content flex flex-col h-[80vh]">
+            <button class="close-project-modal-btn absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-3xl z-10">&times;</button>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">AI Support (Tim Dukungan)</h2>
+            <p class="text-gray-500 mb-6">Ada masalah teknis atau pertanyaan seputar akun?</p>
+            <div id="ai-support-chat-box" class="bg-gray-50 p-4 rounded-lg flex-grow overflow-y-auto space-y-4">
+                <!-- AI Welcome Message -->
+                <div class="flex justify-start">
+                    <div class="bg-white border p-3 rounded-lg max-w-md">
+                        <p class="font-semibold text-indigo-700 mb-2">Halo! Saya AI Support.</p>
+                        <p class="text-sm text-gray-700">Bagaimana saya bisa membantu? Anda bisa tanyakan soal masalah login, cara kerja fitur, atau melaporkan bug. Untuk bantuan pengembangan ide proyek, silakan hubungi "AI Mentor".</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <form id="ai-support-form" class="relative">
+                    <input type="text" id="ai-support-input" placeholder="Jelaskan masalah Anda di sini..." class="w-full pl-4 pr-12 py-3 border rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full h-10 w-10 flex items-center justify-center hover:bg-indigo-700 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+     <div id="event-space-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4 modal-overlay no-print">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-3xl relative p-8 project-modal-content">
+            <button class="close-project-modal-btn absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-3xl z-10">&times;</button>
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Ruang Event Digital</h2>
+            
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold text-gray-700 mb-4">Event Mendatang & Saat Ini</h3>
+                <div class="space-y-4">
+                    <div class="bg-white border p-4 rounded-lg flex flex-col md:flex-row items-center gap-4">
+                        <div class="bg-purple-100 text-purple-700 p-4 rounded-lg text-center">
+                            <p class="text-2xl font-bold">15</p>
+                            <p class="text-sm">OKT</p>
+                        </div>
+                        <div class="flex-grow text-center md:text-left">
+                            <p class="font-semibold text-purple-800">Webinar: Pengenalan Teknologi Augmented Reality</p>
+                            <p class="text-sm text-gray-500">Oleh: Citra Kirana (Mahasiswa ITB)</p>
+                        </div>
+                        <button class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition w-full md:w-auto">Daftar</button>
+                    </div>
+                     <div class="bg-white border p-4 rounded-lg flex flex-col md:flex-row items-center gap-4">
+                        <div class="bg-green-100 text-green-700 p-4 rounded-lg text-center">
+                            <p class="text-2xl font-bold">22</p>
+                            <p class="text-sm">OKT</p>
+                        </div>
+                        <div class="flex-grow text-center md:text-left">
+                            <p class="font-semibold text-green-800">Kompetisi Nasional: Inovasi Energi Pedesaan</p>
+                            <p class="text-sm text-gray-500">Total Hadiah 10 Juta Rupiah!</p>
+                        </div>
+                        <button class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition w-full md:w-auto">Info Lanjut</button>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-semibold text-gray-700 mb-4">Riwayat Event</h3>
+                 <div class="space-y-4 opacity-70">
+                    <div class="bg-gray-100 border p-4 rounded-lg flex flex-col md:flex-row items-center gap-4">
+                        <div class="bg-gray-200 text-gray-600 p-4 rounded-lg text-center">
+                            <p class="text-2xl font-bold">20</p>
+                            <p class="text-sm">SEP</p>
+                        </div>
+                        <div class="flex-grow text-center md:text-left">
+                            <p class="font-semibold text-gray-700">Workshop: Dasar-Dasar Desain Thinking</p>
+                            <p class="text-sm text-gray-500">Oleh: Prof. Budi Santoso</p>
+                        </div>
+                        <span class="bg-gray-500 text-white text-xs font-bold px-3 py-1 rounded-full">SELESAI</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Modal Logic
+            const loginBtn = document.getElementById('login-btn');
+            const loginModal = document.getElementById('login-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn'); // Ini sepertinya salah ID, tapi akan saya abaikan karena tidak ada di HTML. Logika penutupan modal ada di 'close-project-modal-btn'
+            const googleLoginBtn = document.getElementById('google-login-btn');
+            const navContent = document.getElementById('nav-content');
+            const joinNowBtn = document.getElementById('join-now-btn');
+            const footerJoinBtn = document.getElementById('footer-join-btn');
+
+            // New Mobile Menu Logic
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileNavLinks = document.querySelectorAll('.nav-link-mobile');
+            const loginBtnMobile = document.getElementById('login-btn-mobile');
+
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+            function closeMobileMenu() {
+                if (mobileMenu) {
+                    mobileMenu.classList.add('hidden');
+                }
+            }
+            // --- End of New Mobile Menu Logic
+
+            function openModal(modal) { if(modal) modal.classList.remove('hidden'); }
+            function closeModal(modal) { if(modal) modal.classList.add('hidden'); }
+
+            function loginWithGoogle() {
+                closeModal(loginModal);
+                if (loginBtn) loginBtn.remove();
+                const userProfile = document.createElement('div');
+                userProfile.innerHTML = `
+                    <a href="#" data-modal="profil-modal" class="project-detail-btn flex items-center space-x-3">
+                        <img src="https://placehold.co/40x40/667eea/ffffff?text=U" alt="User Avatar" class="w-8 h-8 rounded-full">
+                        <span class="text-gray-700 font-semibold">User Google</span>
+                    </a>
+                `;
+                if (navContent) navContent.appendChild(userProfile);
+
+                // Mobile Nav Update
+                if (loginBtnMobile) {
+                    const userProfileMobile = document.createElement('a');
+                    userProfileMobile.href = "#";
+                    userProfileMobile.dataset.modal = "profil-modal";
+                    userProfileMobile.className = "project-detail-btn block flex items-center space-x-3 text-gray-700 font-medium p-2 rounded-md hover:bg-gray-100";
+                    userProfileMobile.innerHTML = `
+                        <img src="https://placehold.co/40x40/667eea/ffffff?text=U" alt="User Avatar" class="w-8 h-8 rounded-full">
+                        <span>Profil (User Google)</span>
+                    `;
+                    // Replace mobile login button with profile link
+                    loginBtnMobile.replaceWith(userProfileMobile);
+                }
+            }
+
+            if (loginBtn) loginBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(loginModal); });
+            if (joinNowBtn) joinNowBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(loginModal); });
+            if (footerJoinBtn) footerJoinBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(loginModal); });
+            // if (closeModalBtn) closeModalBtn.addEventListener('click', () => closeModal(loginModal)); // Komentar ini ada di kode asli, saya biarkan
+            if (googleLoginBtn) googleLoginBtn.addEventListener('click', loginWithGoogle);
+            if (loginModal) loginModal.addEventListener('click', (e) => { if (e.target === loginModal) { closeModal(loginModal); } });
+
+            // Mobile login button
+            if (loginBtnMobile) {
+                loginBtnMobile.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    closeMobileMenu();
+                    openModal(loginModal);
+                });
+            }
+
+
+            // Page Navigation Logic
+            const pageContainers = document.querySelectorAll('main > div, main > section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            function showPage(targetId) {
+                pageContainers.forEach(container => {
+                    if (container.id === targetId) {
+                        container.classList.remove('hidden');
+                    } else {
+                        container.classList.add('hidden');
+                    }
+                });
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const pageId = link.dataset.page;
+                    const anchor = link.getAttribute('href');
+
+                    if (pageId) {
+                        e.preventDefault();
+                        showPage(pageId);
+                        window.scrollTo(0, 0);
+                    } else if (anchor && anchor.startsWith('#')) {
+                        if (document.getElementById('home-content').classList.contains('hidden')) {
+                           e.preventDefault();
+                           showPage('home-content');
+                           setTimeout(() => {
+                                document.querySelector(anchor).scrollIntoView({ behavior: 'smooth' });
+                           }, 100);
+                        }
+                    }
+                });
+            });
+
+            // Add navigation logic for mobile links
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const pageId = link.dataset.page;
+                    if (pageId) {
+                        e.preventDefault();
+                        showPage(pageId);
+                        window.scrollTo(0, 0);
+                        closeMobileMenu(); // Close menu after navigation
+                    }
+                });
+            });
+
+            // Universal detail button logic
+            document.body.addEventListener('click', function(e) {
+                const target = e.target.closest('.project-detail-btn');
+                if (target) {
+                    e.preventDefault();
+                    const modalId = target.getAttribute('data-modal');
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        // Check if the button is inside the mobile menu
+                        if (target.closest('#mobile-menu')) {
+                            closeMobileMenu();
+                        }
+                        openModal(modal);
+                        if (modalId === 'forum-modal') {
+                             document.querySelector('.forum-topic-link[data-topic="teknologi"]').click();
+                        }
+                        if (modalId === 'moderator-modal') {
+                            // Animate gauge
+                            const score = 120; // Example score
+                            const circle = modal.querySelector('.gauge-circle-progress');
+                            const radius = circle.r.baseVal.value;
+                            const circumference = radius * 2 * Math.PI;
+                            const offset = circumference - (score / 120) * circumference;
+                            circle.style.strokeDashoffset = offset;
+                        }
+                    }
+                }
+            });
+
+            const closeAllModalBtns = document.querySelectorAll('.close-project-modal-btn');
+            const allModals = document.querySelectorAll('[id$="-modal"]'); 
+
+            closeAllModalBtns.forEach(btn => {
+                 btn.addEventListener('click', () => {
+                    const modal = btn.closest('[id$="-modal"]');
+                    if(modal) closeModal(modal);
+                });
+            });
+
+            allModals.forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                     if (e.target === modal) {
+                        closeModal(modal);
+                    }
+                });
+            });
+
+            // NEW: Intersection Observer for Stat Counter
+            const statSection = document.getElementById('statistik');
+            const statItems = document.querySelectorAll('.stat-item');
+            const statNumbers = document.querySelectorAll('.stat-number');
+            let hasAnimatedStats = false; // Flag to ensure animation runs only once
+
+            function animateCountUp(el) {
+                const target = parseInt(el.dataset.target, 10);
+                const duration = 2000; // 2 seconds
+                let start = 0;
+                const startTime = Date.now();
+
+                if (target === 0) {
+                    el.innerText = '0';
+                    return;
+                }
+
+                function step() {
+                    const now = Date.now();
+                    const progress = Math.min((now - startTime) / duration, 1);
+                    
+                    start = Math.floor(progress * target);
+                    el.innerText = start.toLocaleString('id-ID'); // Format with dots
+                    
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    } else {
+                        el.innerText = target.toLocaleString('id-ID'); // Ensure final value is exact
+                    }
+                }
+                window.requestAnimationFrame(step);
+            }
+
+            const statObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !hasAnimatedStats) {
+                        hasAnimatedStats = true; // Set flag
+                        
+                        // Animate items visible
+                        statItems.forEach((item, index) => {
+                            setTimeout(() => {
+                                item.classList.add('is-visible');
+                            }, index * 200); // Stagger animation
+                        });
+                        
+                        // Start number count-up
+                        statNumbers.forEach(animateCountUp);
+                        
+                        statObserver.unobserve(statSection); // Stop observing after animation
+                    }
+                });
+            }, {
+                threshold: 0.5 // Trigger when 50% of the section is visible
+            });
+
+            if (statSection) {
+                statObserver.observe(statSection);
+            }
+            // --- End of New Stat Counter Logic ---
+
+
+            // AI Mentor Logic
+            const aiMentorForm = document.getElementById('ai-mentor-form');
+            const aiMentorInput = document.getElementById('ai-mentor-input');
+            const aiChatBox = document.getElementById('ai-chat-box');
+
+            const systemPrompt_Mentor = "Anda adalah AI Mentor dari SchoolNet, sebuah platform kolaborasi untuk pelajar. Berikan jawaban yang ramah, mendukung, dan informatif dalam Bahasa Indonesia. Bantu pengguna mengembangkan ide proyek mereka, berikan saran langkah-demi-langkah, dan jawab pertanyaan mereka seputar inovasi, riset, dan kolaborasi. Jaga agar jawaban tetap ringkas dan mudah dipahami.";
+            const systemPrompt_Support = "Anda adalah AI Support (Tim Dukungan) dari SchoolNet. Berikan jawaban yang ramah, profesional, dan solutif dalam Bahasa Indonesia. Fokus pada penyelesaian masalah teknis, pertanyaan seputar akun, dan cara menggunakan platform. JANGAN menjawab pertanyaan tentang pengembangan ide proyek (jika ditanya, arahkan pengguna untuk menggunakan 'AI Mentor').";
+            const apiKey = "AIzaSyAXcq-ZNf5L7-KnGpKXGyttnW222hjJgNc";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+            async function getAiResponse(prompt, systemPrompt, retries = 3, delay = 1000) {
+                const payload = {
+                    contents: [{ parts: [{ text: prompt }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                };
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) {
+                        if (response.status === 429 && retries > 0) {
+                            await new Promise(resolve => setTimeout(resolve, delay));
+                            return getAiResponse(prompt, systemPrompt, retries - 1, delay * 2);
+                        }
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const result = await response.json();
+                    return result.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, saya tidak bisa memberikan jawaban saat ini.";
+                } catch (error) {
+                    console.error("Error calling Gemini API:", error);
+                     if (retries > 0) {
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        return getAiResponse(prompt, systemPrompt, retries - 1, delay * 2);
+                    }
+                    return "Maaf, terjadi kesalahan. Periksa koneksi Anda dan coba lagi.";
+                }
+            }
+            
+            function showLoadingIndicator(chatBoxElement) {
+                const loadingDiv = document.createElement('div');
+                loadingDiv.className = 'flex justify-start ai-loading-indicator';
+                loadingDiv.innerHTML = `<div class="bg-white border p-3 rounded-lg max-w-md"><div class="flex items-center space-x-2"><div class="w-2 h-2 bg-gray-400 rounded-full animate-pulse"></div><div class="w-2 h-2 bg-gray-400 rounded-full animate-pulse" style="animation-delay: 0.2s;"></div><div class="w-2 h-2 bg-gray-400 rounded-full animate-pulse" style="animation-delay: 0.4s;"></div></div></div>`;
+                chatBoxElement.appendChild(loadingDiv);
+                chatBoxElement.scrollTop = chatBoxElement.scrollHeight;
+            }
+
+            function removeLoadingIndicator(chatBoxElement) {
+                const loadingDiv = chatBoxElement.querySelector('.ai-loading-indicator');
+                if (loadingDiv) loadingDiv.remove();
+            }
+
+            if (aiMentorForm) {
+                aiMentorForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const userMessage = aiMentorInput.value.trim();
+                    if (userMessage === '') return;
+
+                    const userMessageDiv = document.createElement('div');
+                    userMessageDiv.className = 'flex justify-end';
+                    userMessageDiv.innerHTML = `<div class="bg-indigo-600 text-white p-3 rounded-lg max-w-xs"><p>${userMessage}</p></div>`;
+                    aiChatBox.appendChild(userMessageDiv);
+                    
+                    aiMentorInput.value = '';
+                    aiMentorInput.disabled = true;
+                    aiChatBox.scrollTop = aiChatBox.scrollHeight;
+                    
+                    showLoadingIndicator(aiChatBox);
+                    const responseText = await getAiResponse(userMessage, systemPrompt_Mentor);
+                    removeLoadingIndicator(aiChatBox);
+
+                    const aiMessageDiv = document.createElement('div');
+                    aiMessageDiv.className = 'flex justify-start';
+                    const aiTextContainer = document.createElement('p');
+                    aiTextContainer.innerText = responseText.replace(/(\*\*|#|\*|\/|\|)/g, '');
+                    aiMessageDiv.innerHTML = `<div class="bg-white border p-3 rounded-lg max-w-md"></div>`;
+                    aiMessageDiv.querySelector('div').appendChild(aiTextContainer);
+                    aiChatBox.appendChild(aiMessageDiv);
+                    
+                    aiChatBox.scrollTop = aiChatBox.scrollHeight;
+                    aiMentorInput.disabled = false;
+                    aiMentorInput.focus();
+                });
+            }
+
+            // AI Support Logic (NEW)
+            const aiSupportForm = document.getElementById('ai-support-form');
+            const aiSupportInput = document.getElementById('ai-support-input');
+            const aiSupportChatBox = document.getElementById('ai-support-chat-box');
+
+            if (aiSupportForm) {
+                aiSupportForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const userMessage = aiSupportInput.value.trim();
+                    if (userMessage === '') return;
+
+                    const userMessageDiv = document.createElement('div');
+                    userMessageDiv.className = 'flex justify-end';
+                    userMessageDiv.innerHTML = `<div class="bg-indigo-600 text-white p-3 rounded-lg max-w-xs"><p>${userMessage}</p></div>`;
+                    aiSupportChatBox.appendChild(userMessageDiv);
+                    
+                    aiSupportInput.value = '';
+                    aiSupportInput.disabled = true;
+                    aiSupportChatBox.scrollTop = aiSupportChatBox.scrollHeight;
+                    
+                    showLoadingIndicator(aiSupportChatBox);
+                    const responseText = await getAiResponse(userMessage, systemPrompt_Support);
+                    removeLoadingIndicator(aiSupportChatBox);
+
+                    const aiMessageDiv = document.createElement('div');
+                    aiMessageDiv.className = 'flex justify-start';
+                    const aiTextContainer = document.createElement('p');
+                    aiTextContainer.innerText = responseText.replace(/(\*\*|#|\*|\/|\|)/g, '');
+                    aiMessageDiv.innerHTML = `<div class="bg-white border p-3 rounded-lg max-w-md"></div>`;
+                    aiMessageDiv.querySelector('div').appendChild(aiTextContainer);
+                    aiSupportChatBox.appendChild(aiMessageDiv);
+                    
+                    aiSupportChatBox.scrollTop = aiSupportChatBox.scrollHeight;
+                    aiSupportInput.disabled = false;
+                    aiSupportInput.focus();
+                });
+            }
+
+            // FAQ Accordion Logic
+            const faqAccordions = document.querySelectorAll('#faq-accordion, #faq-accordion-page');
+            if (faqAccordions.length > 0) {
+                 faqAccordions.forEach(accordion => {
+                    const items = accordion.querySelectorAll('.faq-item');
+                    items.forEach(item => {
+                        const questionBtn = item.querySelector('.faq-question');
+                        const answer = item.querySelector('.faq-answer');
+                        
+                        questionBtn.addEventListener('click', () => {
+                            const isOpen = item.classList.contains('active');
+                            
+                            // Close all items in this specific accordion
+                             const allItemsInThisAccordion = accordion.querySelectorAll('.faq-item');
+                             allItemsInThisAccordion.forEach(i => {
+                                i.classList.remove('active');
+                                i.querySelector('.faq-answer').style.maxHeight = null;
+                            });
+
+                            // If it was closed, open it
+                            if (!isOpen) {
+                                item.classList.add('active');
+                                answer.style.maxHeight = answer.scrollHeight + "px";
+                            }
+                        });
+                    });
+                });
+            }
+
+
+            // Forum Logic
+            const forumTopics = document.getElementById('forum-topics');
+            const forumChatArea = document.getElementById('forum-chat-area');
+            const forumData = {
+                teknologi: { title: '#teknologi', description: 'Diskusi seputar inovasi, coding, dan tren teknologi masa depan.', chats: [{ user: 'Citra Kirana', avatar: 'C', color: 'purple', msg: 'Ada yang punya ide untuk aplikasi AR di bidang pariwisata? Kayaknya potensial banget buat ngenalin cagar budaya.' }, { user: 'Andi Pratama', avatar: 'A', color: 'orange', msg: 'Wah, setuju! Bisa pakai Geolocation API buat trigger konten AR pas pengunjung di lokasi tertentu. Misalnya di Candi Borobudur.' }] },
+                sains: { title: '#sains', description: 'Eksplorasi penemuan, riset, dan keajaiban dunia sains.', chats: [{ user: 'Dewi Lestari', avatar: 'D', color: 'purple', msg: 'Guys, ada yang pernah coba membuat bioplastik dari singkong? Aku lagi riset nih, butuh masukan soal komposisi yang pas.' },] },
+                'seni-budaya': { title: '#seni-budaya', description: 'Berbagi karya, inspirasi, dan diskusi tentang seni dan budaya Indonesia.', chats: [{ user: 'Joko', avatar: 'J', color: 'pink', msg: 'Aku lagi cari animator 2D buat proyek film pendek cerita rakyat. Ada yang tertarik?' }] },
+                lingkungan: { title: '#lingkungan', description: 'Diskusi dan aksi nyata untuk menjaga kelestarian lingkungan kita.', chats: [] },
+                'sosial-humaniora': { title: '#sosial-humaniora', description: 'Membahas isu-isu sosial, sejarah, dan kemanusiaan.', chats: [] }
+            };
+
+            function renderForumChat(topic) {
+                const data = forumData[topic] || { title: 'Tidak Ditemukan', description: '', chats: [] };
+                let chatsHTML = data.chats.length > 0 ? data.chats.map(chat => `
+                    <div class="flex items-start gap-3">
+                        <img src="https://placehold.co/40x40/${chat.color}-200/ffffff?text=${chat.avatar}" class="w-10 h-10 rounded-full" alt="avatar">
+                        <div>
+                            <p class="font-semibold text-${chat.color}-700 text-sm">${chat.user}</p>
+                            <div class="bg-gray-100 p-3 rounded-lg mt-1"><p>${chat.msg}</p></div>
+                        </div>
+                    </div>`).join('') : '<p class="text-center text-gray-500">Belum ada diskusi di topik ini. Jadilah yang pertama!</p>';
+
+                forumChatArea.innerHTML = `
+                    <div class="p-4 border-b">
+                        <h4 class="font-bold text-gray-800">${data.title}</h4>
+                        <p class="text-sm text-gray-500">${data.description}</p>
+                    </div>
+                    <div class="flex-1 p-4 space-y-4 overflow-y-auto">${chatsHTML}</div>
+                    <div class="p-4 border-t bg-gray-50">
+                        <form class="forum-chat-form relative">
+                             <input type="text" placeholder="Ketik pesan di ${data.title}..." class="w-full pl-4 pr-12 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                             <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full h-8 w-8 flex items-center justify-center hover:bg-indigo-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                             </button>
+                        </form>
+                    </div>`;
+            }
+
+            if (forumTopics) {
+                forumTopics.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const link = e.target.closest('.forum-topic-link');
+                    if (!link) return;
+                    document.querySelectorAll('.forum-topic-link').forEach(l => {
+                        l.classList.remove('bg-indigo-100', 'text-indigo-700', 'font-semibold');
+                        l.classList.add('hover:bg-gray-200');
+                    });
+                    link.classList.add('bg-indigo-100', 'text-indigo-700', 'font-semibold');
+                    link.classList.remove('hover:bg-gray-200');
+                    renderForumChat(link.dataset.topic);
+                });
+            }
+            
+            if (forumChatArea) {
+                forumChatArea.addEventListener('submit', (e) => {
+                    if (e.target.classList.contains('forum-chat-form')) {
+                        e.preventDefault();
+                        const form = e.target;
+                        const input = form.querySelector('input');
+                        const message = input.value.trim();
+                        if (message === '') return;
+
+                        const chatContainer = form.closest('#forum-chat-area').querySelector('.overflow-y-auto');
+                        
+                        const userMessageDiv = document.createElement('div');
+                        userMessageDiv.className = 'flex justify-end';
+                        userMessageDiv.innerHTML = `<div class="bg-indigo-600 text-white p-3 rounded-lg max-w-xs"><p>${message}</p></div>`;
+                        chatContainer.appendChild(userMessageDiv);
+                        
+                        input.value = '';
+                        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+                        setTimeout(() => {
+                             const replyMessageDiv = document.createElement('div');
+                             replyMessageDiv.className = 'flex items-start gap-3';
+                             replyMessageDiv.innerHTML = `
+                                <img src="https://placehold.co/40x40/9f7aea/ffffff?text=B" class="w-10 h-10 rounded-full" alt="avatar">
+                                <div>
+                                    <p class="font-semibold text-purple-700 text-sm">Budi</p>
+                                    <div class="bg-gray-100 p-3 rounded-lg mt-1"><p>Ide bagus! Sudah coba riset referensi X?</p></div>
+                                </div>
+                             `;
+                             chatContainer.appendChild(replyMessageDiv);
+                             chatContainer.scrollTop = chatContainer.scrollHeight;
+                        }, 1200);
+                    }
+                });
+            }
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
