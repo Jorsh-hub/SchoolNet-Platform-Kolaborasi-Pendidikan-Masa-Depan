@@ -1,18 +1,18 @@
-# Proyek SchoolNet: Platform Kolaborasi Pendidikan Masa Depan
+# SchoolNet Project: The Future of Educational Collaboration
 
-Deskripsi:
-Proyek ini adalah *landing page* (halaman utama) yang dirancang untuk platform kolaborasi digital, SchoolNet. Platform ini menghubungkan pelajar dan mahasiswa di seluruh Indonesia untuk berkolaborasi dan menciptakan karya inovatif.
+Description:
+This project is a landing page designed for the digital collaboration platform SchoolNet. The platform connects students and university learners across Indonesia to collaborate and create innovative works.
 
-Fitur Utama yang Ditampilkan:
-- Showcase Proyek Digital (AR, Riset Energi, Literasi)
-- Fitur Kolaborasi Cerdas (AI Mentor & Dasbor Reputasi AI)
-- Statistik Proyek dan Pengguna
+Key Features Displayed:
+- Digital Project Showcase (AR, Energy Research, Literacy)
+- Smart Collaboration Features (AI Mentor & AI Reputation Dashboard)
+- Project and User Statistics
 
-Teknologi:
+Technologies Used:
 - HTML5
-- Tailwind CSS (untuk styling)
-- JavaScript (untuk logika navigasi dan modal)
+- Tailwind CSS (for styling)
+- JavaScript (for navigation logic and modals)
 
-Cara Menjalankan:
-1. Clone repositori ini.
-2. Buka file `index.html` langsung di browser Anda.
+How to Run:
+1. Clone this repository.
+2. Open the index.html file directly in your browser.
