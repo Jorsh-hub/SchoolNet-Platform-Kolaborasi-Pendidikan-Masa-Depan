@@ -1291,9 +1291,31 @@
             </div>
         </div>
     </div>
+
+<script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore-compat.js"></script>
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+
+            const firebaseConfig = {
+          apiKey: "AIzaSyCkZyH1fDLQk4CNS5gWKZX1BgdcvhxVljI",
+          authDomain: "schoolnet-9635b.firebaseapp.com",
+          projectId: "schoolnet-9635b",
+          storageBucket: "schoolnet-9635b.firebasestorage.app",
+          messagingSenderId: "269058883564",
+          appId: "1:269058883564:web:bf3c71b3cfc3413ef28ac9",
+          measurementId: "G-12Y60RSVC4"
+        };
+
+        // Inisialisasi Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const analytics = firebase.analytics(app);
+        const db = firebase.firestore(app);
+        const auth = firebase.auth(app);
+            
             // Modal Logic
             const loginBtn = document.getElementById('login-btn');
             const loginModal = document.getElementById('login-modal');
@@ -1325,33 +1347,54 @@
             function openModal(modal) { if(modal) modal.classList.remove('hidden'); }
             function closeModal(modal) { if(modal) modal.classList.add('hidden'); }
 
-            function loginWithGoogle() {
-                closeModal(loginModal);
-                if (loginBtn) loginBtn.remove();
-                const userProfile = document.createElement('div');
-                userProfile.innerHTML = `
-                    <a href="#" data-modal="profil-modal" class="project-detail-btn flex items-center space-x-3">
-                        <img src="https://placehold.co/40x40/667eea/ffffff?text=U" alt="User Avatar" class="w-8 h-8 rounded-full">
-                        <span class="text-gray-700 font-semibold">User Google</span>
-                    </a>
-                `;
-                if (navContent) navContent.appendChild(userProfile);
+         function loginWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
 
-                // Mobile Nav Update
-                if (loginBtnMobile) {
-                    const userProfileMobile = document.createElement('a');
-                    userProfileMobile.href = "#";
-                    userProfileMobile.dataset.modal = "profil-modal";
-                    userProfileMobile.className = "project-detail-btn block flex items-center space-x-3 text-gray-700 font-medium p-2 rounded-md hover:bg-gray-100";
-                    userProfileMobile.innerHTML = `
-                        <img src="https://placehold.co/40x40/667eea/ffffff?text=U" alt="User Avatar" class="w-8 h-8 rounded-full">
-                        <span>Profil (User Google)</span>
-                    `;
-                    // Replace mobile login button with profile link
-                    loginBtnMobile.replaceWith(userProfileMobile);
-                }
+    auth.signInWithPopup(provider)
+        .then((result) => {
+
+            const user = result.user;
+            const displayName = user.displayName;
+            const photoURL = user.photoURL;
+
+            closeModal(loginModal);
+            if (loginBtn) loginBtn.remove();
+            
+            const userProfile = document.createElement('div');
+            userProfile.innerHTML = `
+                <a href="#" data-modal="profil-modal" class="project-detail-btn flex items-center space-x-3">
+                    <img src="${photoURL}" alt="User Avatar" class="w-8 h-8 rounded-full border-2 border-indigo-200">
+                    <span class="text-gray-700 font-semibold">${displayName}</span>
+                </a>
+            `;
+            if (navContent) navContent.appendChild(userProfile);
+
+            if (loginBtnMobile) {
+                const userProfileMobile = document.createElement('a');
+                userProfileMobile.href = "#";
+                userProfileMobile.dataset.modal = "profil-modal";
+                userProfileMobile.className = "project-detail-btn block flex items-center space-x-3 text-gray-700 font-medium p-2 rounded-md hover:bg-gray-100";
+                userProfileMobile.innerHTML = `
+                    <img src="${photoURL}" alt="User Avatar" class="w-8 h-8 rounded-full border-2 border-indigo-200">
+                    <span>Profil (${displayName})</span>
+                `;
+                loginBtnMobile.replaceWith(userProfileMobile);
             }
 
+            db.collection('users').doc(user.uid).set({
+                displayName: displayName,
+                email: user.email,
+                photoURL: photoURL,
+                lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true });
+
+        })
+        .catch((error) => {
+
+            console.error("Login Gagal:", error.message);
+            alert("Login gagal: " + error.message);
+        });
+}
             if (loginBtn) loginBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(loginModal); });
             if (joinNowBtn) joinNowBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(loginModal); });
             if (footerJoinBtn) footerJoinBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(loginModal); });
