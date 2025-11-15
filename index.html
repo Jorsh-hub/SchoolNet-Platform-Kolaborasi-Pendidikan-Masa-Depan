@@ -779,15 +779,15 @@
                         <ul class="list-disc list-inside text-gray-600">
                             <li>Andi Pratama (Siswa, SMA 3 Bandung)</li>
                             <li>Citra Kirana (Mahasiswa, ITB)</li>
-                            <li>Budi Santoso (Mahasiswa, ITB)</li>
+                            <li>Novika Anggita (Mahasiswa, UNY)</li>
                         </ul>
                     </div>
                     <div>
                         <h3 class="font-semibold text-lg mb-2">Tujuan & Manfaat</h3>
                         <ul class="list-disc list-inside text-gray-600">
                             <li>Meningkatkan pemahaman konsep biologi.</li>
-                            <li>Membuat belajar lebih menarik & interaktif.</li>
                             <li>Mengembangkan skill teknologi di kalangan siswa.</li>
+                            <li>Membuat belajar lebih menarik & interaktif.</li>
                         </ul>
                     </div>
                 </div>
@@ -1105,36 +1105,73 @@
             </div>
         </div>
     </div>
-    <div id="profil-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4 modal-overlay no-print">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-4xl relative project-modal-content">
-            <button class="close-project-modal-btn absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-3xl z-10 no-print">&times;</button>
-            <div id="printable-profile" class="p-8">
-                <div class="grid md:grid-cols-3 gap-8">
-                    <!-- Left Column -->
-                    <div class="md:col-span-1 md:border-r md:pr-8 flex flex-col items-center text-center">
-                        <img src="https://placehold.co/150x150/667eea/ffffff?text=U" class="rounded-full border-4 border-indigo-200 shadow-lg" alt="User Avatar">
-                        <h2 class="text-3xl font-bold text-gray-800 mt-4">User Google</h2>
-                        <p class="text-gray-500">Mahasiswa, Institut Teknologi Bandung</p>
-                        
-                        <div class="my-6 w-full">
-                            <p class="text-sm text-gray-500">Skor Reputasi</p>
-                            <div class="bg-gray-200 rounded-full h-2.5">
-                                <div class="bg-indigo-600 h-2.5 rounded-full" style="width: 100%"></div>
-                            </div>
-                            <p class="text-2xl font-bold text-indigo-600 mt-1">120</p>
-                        </div>
-    
-                        <div class="w-full space-y-3 no-print">
-                            <button onclick="window.print()" class="w-full bg-gray-700 text-white py-2 rounded-md hover:bg-gray-800 transition flex items-center justify-center font-semibold">
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-                                Cetak Portofolio
-                            </button>
-                            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://schoolnet.example.com/&title=Lihat%20Portofolio%20Saya%20di%20SchoolNet&summary=Saya%20telah%20membangun%20portofolio%20proyek%20kolaboratif%20saya%20di%20SchoolNet.%20Lihat%20kontribusi%20saya!&source=SchoolNet" target="_blank" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition flex items-center justify-center font-semibold">
-                                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                                Bagikan ke LinkedIn
-                            </a>
-                        </div>
-                    </div>
+ 
+                    <div class="my-6 w-full">
+                        <p class="text-sm text-gray-500">Skor Reputasi</p>
+                        <div class="bg-gray-200 rounded-full h-2.5">
+                            <div id="profile-rep-bar" class="bg-indigo-600 h-2.5 rounded-full" style="width: 10%"></div>
+                        </div>
+                        <p id="profile-rep-score" class="text-2xl font-bold text-indigo-600 mt-1">10</p>
+                    </div>
+   
+                    <div class="w-full space-y-3 no-print">
+                                               <button id="edit-profile-btn" class="profile-display w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition flex items-center justify-center font-semibold">Edit Profil</button>
+                        <button id="save-profile-btn" class="profile-edit hidden w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition flex items-center justify-center font-semibold">Simpan Perubahan</button>
+                        
+                        <button onclick="window.print()" class="w-full bg-gray-700 text-white py-2 rounded-md hover:bg-gray-800 transition flex items-center justify-center font-semibold">Cetak Portofolio</button>
+                        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://jorsh-hub.github.io/SchoolNet-Platform-Kolaborasi-Pendidikan-Masa-Depan/&title=Lihat%20Portofolio%20Saya%20di%20SchoolNet" target="_blank" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition flex items-center justify-center font-semibold">Bagikan ke LinkedIn</a>
+                    </div>
+                </div>
+   
+                               <div class="md:col-span-2 mt-8 md:mt-0">
+                    <div class="mb-6">
+                        <h3 class="font-bold text-xl mb-3 text-gray-800 border-b pb-2">Tentang Saya</h3>
+                                               <p id="profile-about-display" class="profile-display text-gray-600 italic">Tuliskan sesuatu tentang dirimu...</p>
+                                               <textarea id="profile-about-input" class="profile-edit hidden w-full h-24 p-2 border border-gray-300 rounded-md" placeholder="Tuliskan sesuatu tentang dirimu..."></textarea>
+                    </div>
+                    <div class="mb-6">
+                        <h3 class="font-bold text-xl mb-3 text-gray-800 border-b pb-2">Keahlian</h3>
+                                               <div id="profile-skills-display" class="profile-display flex flex-wrap gap-2">
+                            <span class="text-gray-500 italic">Tambahkan keahlian...</span>
+                        </div>
+                                               <input id="profile-skills-input" type="text" class="profile-edit hidden w-full p-2 border border-gray-300 rounded-md" placeholder="Ketik keahlian, pisahkan dengan koma (cth: React, UI/UX)">
+                    </div>
+                    <div class="mb-6">
+                        <h3 class="font-bold text-xl mb-3 text-gray-800 border-b pb-2">Riwayat Proyek</h3>
+                                               <div id="profile-projects-list" class="text-center text-gray-400 italic p-4">
+                            Belum ada riwayat proyek.
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xl mb-3 text-gray-800 border-b pb-2">Achievement</h3>
+                                               <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                            <div class="p-2 grayscale opacity-60">
+                                <div class="bg-yellow-100 text-yellow-600 rounded-full h-20 w-20 flex items-center justify-center text-4xl shadow-inner mx-auto">🏆</div>
+                                <p class="text-sm mt-2 font-semibold">Inovator Muda</p>
+                                <p class="text-xs text-gray-500">Ide proyek terbaik</p>
+                            </div>
+                            <div class="p-2 grayscale opacity-60">
+                                <div class="bg-green-100 text-green-600 rounded-full h-20 w-20 flex items-center justify-center text-4xl shadow-inner mx-auto">🤝</div>
+                                <p class="text-sm mt-2 font-semibold">Kolaborator Aktif</p>
+                                 <p class="text-xs text-gray-500">5+ proyek</p>
+                            </div>
+                         <div class="p-2 grayscale opacity-60">
+                                <div class="bg-gray-200 text-gray-500 rounded-full h-20 w-20 flex items-center justify-center text-4xl shadow-inner mx-auto">멘</div>
+                                <p class="text-sm mt-2 font-semibold">Mentor Hebat</p>
+                                <p class="text-xs text-gray-500">Membimbing 3+ proyek</p>
+                            </div>
+                            <div class="p-2 grayscale opacity-60">
+                                <div class="bg-gray-200 text-gray-500 rounded-full h-20 w-20 flex items-center justify-center text-4xl shadow-inner mx-auto">⭐</div>
+                                <p class="text-sm mt-2 font-semibold">Top Kontributor</p>
+                                <p class="text-xs text-gray-500">Skor reputasi 150+</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     
                     <!-- Right Column -->
                     <div class="md:col-span-2 mt-8 md:mt-0">
@@ -1315,6 +1352,7 @@
         const analytics = firebase.analytics(app);
         const db = firebase.firestore(app);
         const auth = firebase.auth(app);
+        let currentUser = null;
             
             // Modal Logic
             const loginBtn = document.getElementById('login-btn');
@@ -1347,13 +1385,12 @@
             function openModal(modal) { if(modal) modal.classList.remove('hidden'); }
             function closeModal(modal) { if(modal) modal.classList.add('hidden'); }
 
-         function loginWithGoogle() {
+function loginWithGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
-
     auth.signInWithPopup(provider)
         .then((result) => {
-
             const user = result.user;
+            currentUser = user; // <-- INI PENTING: Menyimpan user saat login
             const displayName = user.displayName;
             const photoURL = user.photoURL;
 
@@ -1390,7 +1427,6 @@
 
         })
         .catch((error) => {
-
             console.error("Login Gagal:", error.message);
             alert("Login gagal: " + error.message);
         });
@@ -1411,8 +1447,115 @@
                 });
             }
 
+async function loadUserProfile() {
+    if (!currentUser) {
+        // Jika halaman di-refresh dan user login, kita perlu cek auth state
+        const user = auth.currentUser;
+        if (user) {
+            currentUser = user;
+        } else {
+            alert("Anda harus login dulu!");
+            closeModal(document.getElementById('profil-modal'));
+            openModal(document.getElementById('login-modal'));
+            return;
+        }
+    }
 
-            // Page Navigation Logic
+    const modal = document.getElementById('profil-modal');
+    const docRef = db.collection('users').doc(currentUser.uid);
+    const doc = await docRef.get();
+
+    if (doc.exists) {
+        const data = doc.data();
+        
+        modal.querySelector('#profile-name').innerText = data.displayName;
+        modal.querySelector('#profile-avatar').src = data.photoURL;
+        
+        modal.querySelector('#profile-role-display').innerText = `${data.role || "Siswa/Mahasiswa"} di ${data.school || "[Asal Sekolah]"}`;
+        modal.querySelector('#profile-about-display').innerText = data.aboutMe || "Tuliskan sesuatu tentang dirimu...";
+        if(data.aboutMe) modal.querySelector('#profile-about-display').classList.remove('italic', 'text-gray-600');
+        else modal.querySelector('#profile-about-display').classList.add('italic', 'text-gray-600');
+        
+        modal.querySelector('#profile-role-input').value = data.role || "Siswa";
+        modal.querySelector('#profile-school-input').value = data.school || "";
+        modal.querySelector('#profile-about-input').value = data.aboutMe || "";
+
+        const skillsDisplay = modal.querySelector('#profile-skills-display');
+        const skills = data.skills || [];
+        if (skills.length > 0) {
+            skillsDisplay.innerHTML = skills.map(skill => 
+                `<span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-semibold">${skill}</span>`
+            ).join('');
+            modal.querySelector('#profile-skills-input').value = skills.join(', ');
+        } else {
+            skillsDisplay.innerHTML = `<span class="text-gray-500 italic">Tambahkan keahlian...</span>`;
+            modal.querySelector('#profile-skills-input').value = "";
+        }
+        
+    } else {
+        // Ini terjadi jika user baru login & datanya belum tersimpan
+        modal.querySelector('#profile-name').innerText = currentUser.displayName;
+        modal.querySelector('#profile-avatar').src = currentUser.photoURL;
+    }
+}
+
+function toggleProfileEditMode(isEditing) {
+    const modal = document.getElementById('profil-modal');
+    const displayEls = modal.querySelectorAll('.profile-display');
+    const editEls = modal.querySelectorAll('.profile-edit');
+
+    if (isEditing) {
+        displayEls.forEach(el => el.classList.add('hidden'));
+        editEls.forEach(el => el.classList.remove('hidden'));
+    } else {
+        displayEls.forEach(el => el.classList.remove('hidden'));
+        editEls.forEach(el => el.classList.add('hidden'));
+    }
+}
+
+
+document.getElementById('edit-profile-btn').addEventListener('click', () => {
+    toggleProfileEditMode(true); // Masuk mode Edit
+});
+
+document.getElementById('save-profile-btn').addEventListener('click', async () => {
+    if (!currentUser) return;
+
+    const modal = document.getElementById('profil-modal');
+    const saveBtn = document.getElementById('save-profile-btn');
+    saveBtn.innerText = "Menyimpan...";
+    saveBtn.disabled = true;
+
+    const newRole = modal.querySelector('#profile-role-input').value;
+    const newSchool = modal.querySelector('#profile-school-input').value;
+    const newAboutMe = modal.querySelector('#profile-about-input').value;
+    const newSkillsRaw = modal.querySelector('#profile-skills-input').value;
+    
+    const newSkills = newSkillsRaw.split(',')
+                                   .map(skill => skill.trim())
+                                   .filter(skill => skill.length > 0);
+
+    try {
+        const docRef = db.collection('users').doc(currentUser.uid);
+        await docRef.set({
+            role: newRole,
+            school: newSchool,
+            aboutMe: newAboutMe,
+            skills: newSkills
+        }, { merge: true }); 
+
+        await loadUserProfile();
+        toggleProfileEditMode(false);
+
+    } catch (error) {
+        console.error("Gagal menyimpan profil: ", error);
+        alert("Gagal menyimpan profil.");
+    }
+
+    saveBtn.innerText = "Simpan Perubahan";
+    saveBtn.disabled = false;
+});
+
             const pageContainers = document.querySelectorAll('main > div, main > section');
             const navLinks = document.querySelectorAll('.nav-link');
 
@@ -1466,28 +1609,33 @@
                 if (target) {
                     e.preventDefault();
                     const modalId = target.getAttribute('data-modal');
-                    const modal = document.getElementById(modalId);
-                    if (modal) {
-                        // Check if the button is inside the mobile menu
-                        if (target.closest('#mobile-menu')) {
-                            closeMobileMenu();
-                        }
-                        openModal(modal);
-                        if (modalId === 'forum-modal') {
-                             document.querySelector('.forum-topic-link[data-topic="teknologi"]').click();
-                        }
-                        if (modalId === 'moderator-modal') {
-                            // Animate gauge
-                            const score = 120; // Example score
-                            const circle = modal.querySelector('.gauge-circle-progress');
-                            const radius = circle.r.baseVal.value;
-                            const circumference = radius * 2 * Math.PI;
-                            const offset = circumference - (score / 120) * circumference;
-                            circle.style.strokeDashoffset = offset;
-                        }
-                    }
-                }
-            });
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+
+                        if (target.closest('#mobile-menu')) {
+                            closeMobileMenu();
+                        }
+
+                        openModal(modal);
+
+                        if (modalId === 'profil-modal') {
+                            loadUserProfile();
+                            toggleProfileEditMode(false); // Pastikan selalu dalam mode tampilan
+                        }
+
+                        if (modalId === 'forum-modal') {
+                             document.querySelector('.forum-topic-link[data-topic="teknologi"]').click();
+                        }
+                        
+                      if (modalId === 'moderator-modal') {
+                            const score = 120; // Example score
+                            const circle = modal.querySelector('.gauge-circle-progress');
+                            const radius = circle.r.baseVal.value;
+                            const circumference = radius * 2 * Math.PI;
+                            const offset = circumference - (score / 120) * circumference;
+                            circle.style.strokeDashoffset = offset;
+                        }
+                    }
 
             const closeAllModalBtns = document.querySelectorAll('.close-project-modal-btn');
             const allModals = document.querySelectorAll('[id$="-modal"]'); 
